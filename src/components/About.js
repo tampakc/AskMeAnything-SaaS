@@ -6,12 +6,19 @@ import iconChris from "./icon_chris.png";
 
 const About = () => (
   <div>
-    <h1 className="title is-1">This is the About Page</h1>
-    <p>Our team at `askmeanything`:</p>
-    <img src={iconNick} />
-    <h4>Nikolaos Astrinakis</h4>
-    <img src={iconChris} />
-    <h4>Chris Tampakakis</h4>
+    <h1 className="title">
+      <span className="normal-font">Our team at </span>
+      <span className="colored-font">askmeanything</span>
+      <span className="normal-font">:</span>
+    </h1>
+    <img className="icon" style={{ marginTop: "150px" }} src={iconNick} />
+    <div className="container-name">
+      <span className="name-font">Nikolaos Astrinakis</span>
+    </div>
+    <img className="icon" src={iconChris} />
+    <div className="container-name">
+      <span className="name-font">Chris Tampakakis</span>
+    </div>
   </div>
 );
 

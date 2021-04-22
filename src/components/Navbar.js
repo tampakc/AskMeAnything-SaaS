@@ -11,15 +11,24 @@ const Navbar = ({ isAuth, changeAuth }) => {
   const renderAuth = () => {
     if (!isAuth) {
       return (
-        <NavLink className="navbar-item" to="/login">
+        <NavLink className="navbar-login" exact to="/login">
           Login
         </NavLink>
       );
     } else {
       return (
-        <NavLink className="navbar-item" to="/" onClick={eventHandler}>
-          Log out
-        </NavLink>
+        <>
+          <NavLink
+            className="navbar-item"
+            activeClassName="selected"
+            to="/dashboard"
+          >
+            Profile
+          </NavLink>
+          <NavLink className="navbar-login" exact to="/" onClick={eventHandler}>
+            Log out
+          </NavLink>
+        </>
       );
     }
   };

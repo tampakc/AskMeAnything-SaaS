@@ -1,3 +1,75 @@
+body {
+  background-color: #1e1e23;
+}
+
+h1 {
+  float: left;
+  margin-top: -150px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+}
+.normal-font {
+  color: #f2f2f2;
+}
+.colored-font {
+  color: #78f3ba;
+}
+
+.name-font {
+  display: block;
+  position: relative;
+  text-align: center;
+  color: #f2f2f2;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  transition: ease-in-out 1s;
+  position: relative;
+}
+
+.form-label {
+  float: left;
+  margin-top: -70px;
+  color: #f2f2f2;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+}
+
+.search-bar {
+  display: block;
+  margin-top: 18%;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  text-align: center;
+  width: 40%;
+  height: 50px;
+  font-size: 17px;
+}
+
+.submit-btn {
+  display: block;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 30px;
+  width: 10%;
+}
+
 .navbar {
   background-color: #292930;
   overflow: hidden;
@@ -17,6 +89,7 @@
   color: #f2f2f2;
   text-align: center;
   padding-top: 19px;
+  height: 60px;
   width: 100px;
   text-decoration: none;
   text-transform: uppercase;
@@ -28,29 +101,47 @@
   color: #78f3ba;
   transition: ease-in 0.3s;
 }
-/*
-.navbar-item::after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 0%;
-  background-color: #78f3ba;
-  position: absolute;
-  bottom: -22px;
-  transition: all ease-in-out 200ms;
-}
 
-.navbar-item:hover::after {
-  width: 100%;
-}*/
+.navbar-item.selected {
+  color: #78f3ba;
+}
 
 .navbar-item.selected::after {
   content: "";
   display: block;
-  height: 3px;
+  height: 2px;
   width: 100%;
   background-color: #78f3ba;
   position: absolute;
-  bottom: -22px;
-  transition: ease-in 2000ms;
+  top: 0px;
+}
+
+.navbar-item:active {
+  background-color: #363640;
+  transition: 0.1s;
+}
+
+.navbar-login {
+  float: right;
+  margin-right: 30px;
+  color: #f2f2f2;
+  text-align: center;
+  padding-top: 19px;
+  height: 60px;
+  width: 100px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+}
+
+.navbar-login:hover {
+  color: #78f3ba;
+  transition: ease-in 0.3s;
+}
+
+.navbar-login:active {
+  background-color: #363640;
+  transition: 0.1s;
 }
