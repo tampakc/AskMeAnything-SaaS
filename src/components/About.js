@@ -17,7 +17,9 @@ const About = () => (
     </div>
     <img className="icon" src={iconChris} />
     <div className="container-name">
-      <span className="name-font">Chris Tampakakis</span>
+      <span className="name-font" style={{ marginBottom: "70px" }}>
+        Chris Tampakakis
+      </span>
     </div>
   </div>
 );
