@@ -1,0 +1,46 @@
+.form-label {
+  float: left;
+  margin-top: -70px;
+  color: #f2f2f2;
+  position: absolute;
+  text-align: center;
+  top: 180px;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.search-bar {
+  display: block;
+  position: absolute;
+  border: none;
+  text-align: center;
+  border-radius: 4px;
+  margin-top: 50px;
+  top: 250px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  height: 50px;
+  width: 40%;
+  min-width: 300px;
+  font-size: 17px;
+}
+
+.submit-btn {
+  display: block;
+  position: absolute;
+  top: 380px;
+  height: 35px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 10%;
+  min-width: 100px;
+  color: #1e1e23;
+  border: transparent;
+  border-radius: 4px;
+  background-color: #78f3ba;
+}
+
+.submit-btn:hover {
+  cursor: pointer;
+  background-color: #65ce9d;
+}

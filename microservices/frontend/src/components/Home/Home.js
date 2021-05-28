@@ -2,6 +2,9 @@
 
 import React from "react";
 
+import "../App/Style.css";
+import "./Home.css";
+
 const Home = () => (
   <div>
     <h1 className="title">
@@ -10,11 +13,11 @@ const Home = () => (
       <span className="normal-font">!</span>
     </h1>
     <form>
+      <h2 className="form-label">Search for any question:</h2>
       <label>
-        <h2 className="form-label">Search for any question:</h2>
         <input className="search-bar" type="text" />
+        <input className="submit-btn" type="submit" />
       </label>
-      <input className="submit-btn" type="submit" />
     </form>
   </div>
 );

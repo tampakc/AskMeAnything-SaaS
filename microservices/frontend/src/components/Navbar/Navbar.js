@@ -1,19 +1,30 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import "./Style.css";
+import "../App/Style.css";
+import "./Navbar.css";
 
-const Navbar = ({ isAuth, changeAuth }) => {
-  const eventHandler = async () => {
-    await changeAuth(false);
+const Navbar = ({ token, setToken }) => {
+  const handleLogout = () => {
+    setToken(null);
   };
 
   const renderAuth = () => {
-    if (!isAuth) {
+    if (!token) {
       return (
-        <NavLink className="navbar-login" exact to="/login">
-          Login
-        </NavLink>
+        <>
+          <NavLink
+            className="navbar-login"
+            style={{ marginRight: "40px" }}
+            exact
+            to="/signup"
+          >
+            Signup
+          </NavLink>
+          <NavLink className="navbar-login" exact to="/login">
+            Login
+          </NavLink>
+        </>
       );
     } else {
       return (
@@ -25,7 +36,13 @@ const Navbar = ({ isAuth, changeAuth }) => {
           >
             Profile
           </NavLink>
-          <NavLink className="navbar-login" exact to="/" onClick={eventHandler}>
+          <NavLink
+            className="navbar-login"
+            style={{ marginRight: "40px" }}
+            exact
+            to="/"
+            onClick={handleLogout}
+          >
             Log out
           </NavLink>
         </>
@@ -54,7 +71,6 @@ const Navbar = ({ isAuth, changeAuth }) => {
         >
           About
         </NavLink>
-
         {renderAuth()}
       </div>
     </nav>
