@@ -12,37 +12,32 @@ app.use(cors());
 
 const con = mysql.createConnection({
   host: "localhost",
-  user: "questionbackend",
-  password: "question123",
-  database: "askme_question",
+  user: "ansbackend",
+  password: "answer123",
+  database: "askme_answer",
   port,
 });
 
-app.get("/question/:id", async (req, res) => {});
-
-app.get("/question", (req, res) => {});
-
-app.post("/question", authenticateToken, (req, res) => {
+app.post("/answer", authenticateToken, (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
-  const question = req.body.question;
-  const title = req.body.title;
+  const question_id = req.body.question_id;
+  const answer = req.body.answer;
   const user_id = req.user;
-  //const keywords = req.body.keywords;
   const time = req.body.timestamp;
 
   con.query(
-    "INSERT INTO question(user_id, title, body, timestamp) VALUES (?, ?, ?, ?)",
-    [user_id, title, question, time],
+    "INSERT INTO answer(user_id, question_id, body, timestamp) VALUES (?, ?, ?, ?)",
+    [user_id, question_id, answer, time],
     (err, result, fields) => {
       if (err) throw err;
       res.status(200).send(result.insertId);
       axios.post("http://localhost:4005/events", {
-        type: "QuestionPosted",
+        type: "AnswerPosted",
         data: {
           id: result.insertId,
-          title,
-          question,
+          answer,
+          question_id,
           time,
         },
       });
@@ -50,6 +45,6 @@ app.post("/question", authenticateToken, (req, res) => {
   );
 });
 
-app.listen(4001, () => {
-  console.log("Listening on port 4001...");
+app.listen(4002, () => {
+  console.log("Listening on port 4002...");
 });
