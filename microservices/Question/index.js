@@ -28,7 +28,7 @@ app.post("/question", authenticateToken, (req, res) => {
   const question = req.body.question;
   const title = req.body.title;
   const user_id = req.user;
-  //const keywords = req.body.keywords;
+  const keywords = req.body.keywords;
   const time = req.body.timestamp;
 
   con.query(
@@ -44,6 +44,13 @@ app.post("/question", authenticateToken, (req, res) => {
           title,
           question,
           time,
+        },
+      });
+      axios.post("http://localhost:4005/events", {
+        type: "KeywordsPosted",
+        data: {
+          id: result.insertId,
+          keywords,
         },
       });
     }

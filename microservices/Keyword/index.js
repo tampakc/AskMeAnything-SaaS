@@ -18,71 +18,73 @@ const con = mysql.createConnection({
   port,
 });
 
-app.post("/keyword", authenticateToken, (req, res) => {
+app.post("/event", (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
-  const question_id = req.body.question_id;
-  const keywords = req.body.keywords;
-  let counter = keywords.length;
+  if (req.body.type == "KeywordsPosted") {
+    const question_id = req.body.data.question_id;
+    const keywords = req.body.data.keywords;
+    let counter = keywords.length;
 
-  for (keyword of keywords) {
-    const key = keyword;
-    con.query(
-      "SELECT keyword_id FROM keyword WHERE word=?",
-      [key],
-      (err, result, fields) => {
-        if (err) throw err;
+    for (keyword of keywords) {
+      const key = keyword;
+      con.query(
+        "SELECT keyword_id FROM keyword WHERE word=?",
+        [key],
+        (err, result, fields) => {
+          if (err) throw err;
 
-        if (result.length == 0) {
-          con.query(
-            "INSERT INTO keyword(word) VALUES (?)",
-            [key],
-            (err, result, fields) => {
-              if (err) throw err;
-              const keyid = result.insertId;
-              con.query(
-                "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
-                [question_id, keyid],
-                (err, result, fields) => {
-                  if (err) throw err;
-                  counter = counter - 1;
-                  if (counter == 0) {
-                    res.status(200).send();
-                    axios.post("http://localhost:4005/events", {
-                      type: "KeywordsUpdated",
-                      data: {
-                        qid: question_id,
-                        keywords,
-                      },
-                    });
+          if (result.length == 0) {
+            con.query(
+              "INSERT INTO keyword(word) VALUES (?)",
+              [key],
+              (err, result, fields) => {
+                if (err) throw err;
+                const keyid = result.insertId;
+                con.query(
+                  "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
+                  [question_id, keyid],
+                  (err, result, fields) => {
+                    if (err) throw err;
+                    counter = counter - 1;
+                    if (counter == 0) {
+                      res.status(200).send();
+                      axios.post("http://localhost:4005/events", {
+                        type: "KeywordsUpdated",
+                        data: {
+                          question_id,
+                          keywords,
+                        },
+                      });
+                    }
                   }
-                }
-              );
-            }
-          );
-        } else {
-          const keyid = result[0].keyword_id;
-          con.query(
-            "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
-            [question_id, keyid],
-            (err, result, fields) => {
-              if (err) throw err;
-              counter = counter - 1;
-              if (counter == 0) {
-                res.status(200).send();
-                axios.post("http://localhost:4005/events", {
-                  type: "KeywordsUpdated",
-                  data: {
-                    qid: question_id,
-                    keywords,
-                  },
-                });
+                );
               }
-            }
-          );
+            );
+          } else {
+            const keyid = result[0].keyword_id;
+            con.query(
+              "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
+              [question_id, keyid],
+              (err, result, fields) => {
+                if (err) throw err;
+                counter = counter - 1;
+                if (counter == 0) {
+                  res.status(200).send();
+                  axios.post("http://localhost:4005/events", {
+                    type: "KeywordsUpdated",
+                    data: {
+                      question_id,
+                      keywords,
+                    },
+                  });
+                }
+              }
+            );
+          }
         }
-      }
-    );
+      );
+    }
   }
 });
 
