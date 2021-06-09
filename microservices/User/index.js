@@ -49,7 +49,7 @@ app.post("/login", (req, res) => {
     "SELECT user_id, password FROM user WHERE username = '" + username + "'",
     function (err, result, fields) {
       if (err) throw err;
-      if (result[0].password == undefined) {
+      if (result.length == 0) {
         res.status(400).send("User " + username + " does not exist.");
       } else if (result[0].password == password) {
         const body = {
