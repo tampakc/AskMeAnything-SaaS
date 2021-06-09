@@ -1,11 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
 const mysql = require("mysql");
-const jwt = require("jsonwebtoken");
 const fs = require("fs");
 
-const port = 3307; //change this
+const port = 3306; //change this
 
 const app = express();
 app.use(express.json());

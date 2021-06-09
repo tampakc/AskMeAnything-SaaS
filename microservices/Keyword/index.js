@@ -4,7 +4,7 @@ const axios = require("axios");
 const mysql = require("mysql");
 const { authenticateToken } = require("../Auth/Authenticate");
 
-const port = 3307; //change this
+const port = 3306; //change this
 
 const app = express();
 app.use(express.json());

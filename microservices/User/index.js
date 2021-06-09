@@ -7,7 +7,7 @@ const fs = require("fs");
 const Joi = require("joi");
 const { createKey } = require("../Auth/Authenticate");
 
-const port = 3307; //change this
+const port = 3306; //change this
 
 const schema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),

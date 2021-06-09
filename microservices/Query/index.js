@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
 
-const port = 3307; //change this
+const port = 3306; //change this
 
 const app = express();
 app.use(express.json());
