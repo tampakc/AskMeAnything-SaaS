@@ -23,7 +23,7 @@ const routing = {
   KeywordsUpdated: [query],
 };
 
-app.post("/event", authenticateToken, (req, res) => {
+app.post("/event", (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
   const type = req.body.type;

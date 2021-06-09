@@ -1,10 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
 const mysql = require("mysql");
-const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const Joi = require("joi");
+require('dotenv').config()
 const { createKey } = require("../Auth/Authenticate");
 
 const port = 3306; //change this
@@ -42,8 +41,6 @@ const con = mysql.createConnection({
   database: "askme_user",
   port,
 });
-
-const secret = fs.readFileSync("../secret");
 
 app.post("/login", (req, res) => {
   const username = req.body.username;

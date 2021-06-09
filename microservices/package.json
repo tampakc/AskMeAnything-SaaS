@@ -11,7 +11,7 @@
     "query": "cd Query && npm start",
     "question": "cd Question && npm start",
     "user": "cd User && npm start",
-    "start": "concurrently \"npm run answer\" \"npm run auth\" \"npm run event\" \"npm run keyword\" \"npm run query\" \"npm run question\" \"npm run user\" ",
+    "start": "concurrently \"npm run answer\" \"npm run event\" \"npm run keyword\" \"npm run query\" \"npm run question\" \"npm run user\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,7 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "concurrently": "^6.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",

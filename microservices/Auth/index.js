@@ -17,8 +17,6 @@ const conn = mysql.createConnection({
   port,
 });
 
-const secret = fs.readFileSync("secret");
-
 app.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
