@@ -18,7 +18,7 @@ const con = mysql.createConnection({
   port,
 });
 
-app.post("/event", (req, res) => {
+app.get("/service-search", (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
   if (req.body.type == "KeywordsPosted") {
