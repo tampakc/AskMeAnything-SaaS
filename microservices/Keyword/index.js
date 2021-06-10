@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
-const { authenticateToken } = require("../Auth/Authenticate");
 
 const port = 3306; //change this
 
@@ -18,74 +17,75 @@ const con = mysql.createConnection({
   port,
 });
 
-app.get("/service-search", (req, res) => {
-  //we have confirmed that the token is valid so we can continue
+app.get("/keyword/byquestions", (req, res) => {
+  con.query(
+    "SELECT k.word, COUNT(*) as questions FROM `keyword` k INNER JOIN hasword h ON k.keyword_id = h.keyword_id GROUP BY k.keyword_id ORDER BY COUNT(*) DESC",
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database is down");
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
 
-  if (req.body.type == "KeywordsPosted") {
-    const question_id = req.body.data.question_id;
+app.post("/events", (req, res) => {
+  con.beginTransaction((err) => {
+    if (err) {
+      res.status(500).send("Database error");
+      con.rollback((err) => {});
+      return;
+    }
     const keywords = req.body.data.keywords;
-    let counter = keywords.length;
-
-    for (keyword of keywords) {
-      const key = keyword;
+    console.log(keywords);
+    if (req.body.type == "KeywordsPosted") {
       con.query(
-        "SELECT keyword_id FROM keyword WHERE word=?",
-        [key],
+        "INSERT IGNORE INTO keyword VALUES (?)",
+        [keywords],
         (err, result, fields) => {
-          if (err) throw err;
+          if (err) {
+            res.status(500).send("Database error");
+            con.rollback((err) => {});
+            return;
+          }
+          con.query(
+            "INSERT IGNORE INTO hasword(question_id, keyword_id) SELECT ?, keyword_id FROM keyword WHERE word IN (?)",
+            [req.body.data.id, keywords],
+            (err, result, fields) => {
+              if (err) {
+                res.status(500).send("Database error");
+                con.rollback((err) => {});
+                return;
+              }
 
-          if (result.length == 0) {
-            con.query(
-              "INSERT INTO keyword(word) VALUES (?)",
-              [key],
-              (err, result, fields) => {
-                if (err) throw err;
-                const keyid = result.insertId;
+              con.commit((err) => {
+                res.status(200).send();
+
                 con.query(
-                  "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
-                  [question_id, keyid],
+                  "SELECT * FROM keyword WHERE word in (?)",
+                  [keywords],
                   (err, result, fields) => {
                     if (err) throw err;
-                    counter = counter - 1;
-                    if (counter == 0) {
-                      res.status(200).send();
-                      axios.post("http://localhost:4005/events", {
+                    axios
+                      .post("http://localhost:4005/events", {
                         type: "KeywordsUpdated",
-                        data: {
-                          question_id,
-                          keywords,
-                        },
+                        data: { id: req.body.data.id, keywords: result },
+                      })
+                      .catch((error) => {
+                        console.log(error);
                       });
-                    }
                   }
                 );
-              }
-            );
-          } else {
-            const keyid = result[0].keyword_id;
-            con.query(
-              "INSERT INTO hasword(question_id, keyword_id) VALUES (?, ?)",
-              [question_id, keyid],
-              (err, result, fields) => {
-                if (err) throw err;
-                counter = counter - 1;
-                if (counter == 0) {
-                  res.status(200).send();
-                  axios.post("http://localhost:4005/events", {
-                    type: "KeywordsUpdated",
-                    data: {
-                      question_id,
-                      keywords,
-                    },
-                  });
-                }
-              }
-            );
-          }
+              });
+            }
+          );
         }
       );
+    } else {
+      res.status(200).send();
     }
-  }
+  });
 });
 
 app.listen(4003, () => {

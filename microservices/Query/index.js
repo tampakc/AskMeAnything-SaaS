@@ -17,9 +17,104 @@ const con = mysql.createConnection({
   port,
 });
 
+app.get("/query/question/all", (req, res) => {
+  const user_id = req.params.userid;
+  const questions = [];
+  const qids = [];
+
+  con.query(
+    "SELECT q.*, u.username FROM question q INNER JOIN user u ON u.user_id = q.user_id",
+    [user_id],
+    (err, result, fields) => {
+      if (err) throw err;
+      //console.log(result);
+      if (result.length == 0) {
+        res.status(404).send();
+      } else {
+        //console.log(result);
+        for (let q of result) {
+          q.answers = [];
+          q.tags = [];
+          //console.log(q);
+          questions.push(q);
+          //console.log(questions);
+          qids.push(q.question_id);
+        }
+
+        let counter = 2;
+
+        con.query(
+          "SELECT a.*, u.username FROM answer a INNER JOIN user u ON u.user_id = a.user_id",
+          (err, result, fields) => {
+            if (err) {
+              res.status(500).send("Database error");
+              return;
+            }
+            for (let ans of result) {
+              //console.log(ans);
+              const id = ans.question_id;
+
+              const index = qids.indexOf(id);
+              questions[index].answers.push(ans);
+            }
+            counter = counter - 1;
+            if (counter == 0) res.status(200).send(questions);
+          }
+        );
+        con.query(
+          "SELECT k.keyword_id, k.word, h.question_id FROM keyword k INNER JOIN hasword h ON h.keyword_id = k.keyword_id",
+          (err, result, fields) => {
+            if (err) {
+              res.status(500).send("Database error");
+              return;
+            }
+            for (let word of result) {
+              const id = word.question_id;
+
+              const index = qids.indexOf(id);
+              questions[index].tags.push({
+                word: word.word,
+                keyword_id: word.keyword_id,
+              });
+            }
+            counter = counter - 1;
+
+            if (counter == 0) {
+              res.status(200).send(questions);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+app.get("/query/question/all/titles", (req, res) => {
+  const user_id = req.params.userid;
+  const questions = [];
+  const qids = [];
+
+  con.query(
+    "SELECT q.title, u.username, q.question_id, u.user_id  FROM question q INNER JOIN user u ON u.user_id = q.user_id",
+    [user_id],
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database error");
+        return;
+      }
+      //console.log(result);
+      if (result.length == 0) {
+        res.status(404).send();
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
 app.get("/query/question/:questionid", (req, res) => {
   const question_id = req.params.questionid;
-  let counter = 2;
+  let counter = 3;
   const question = {};
 
   con.query(
@@ -48,14 +143,32 @@ app.get("/query/question/:questionid", (req, res) => {
     (err, result, fields) => {
       if (err) throw err;
       if (result.length == 0) {
-        res.status(404).send();
+        question.answers = [];
       } else {
         question.answers = result;
-        counter = counter - 1;
+      }
+      counter = counter - 1;
 
-        if (counter == 0) {
-          res.status(200).send(question);
-        }
+      if (counter == 0) {
+        res.status(200).send(question);
+      }
+    }
+  );
+
+  con.query(
+    "SELECT k.keyword_id, k.word FROM keyword k INNER JOIN hasword h ON h.keyword_id = k.keyword_id WHERE h.question_id=?",
+    [question_id],
+    (err, result, fields) => {
+      if (err) throw err;
+      if (result.length == 0) {
+        question.tags = [];
+      } else {
+        question.tags = result;
+      }
+      counter = counter - 1;
+
+      if (counter == 0) {
+        res.status(200).send(question);
       }
     }
   );
@@ -151,6 +264,49 @@ app.get("/query/keyword/:keyword", (req, res) => {
       }
     }
   );
+});
+
+app.post("/events", (req, res) => {
+  if (req.body.type == "KeywordsUpdated") {
+    const keywords = req.body.data.keywords;
+    const id = req.body.data.id;
+    let hasword = [];
+    for (let word of keywords) {
+      hasword.push([id, word.keyword_id]);
+    }
+    con.query(
+      "INSERT IGNORE INTO keyword(question_id, keyword_id) VALUES (?)",
+      [keywords],
+      (err, result, fields) => {
+        if (err) throw err;
+        con.query(
+          "INSERT INTO hasword(question_id, keyword_id) VALUES ?",
+          [hasword],
+          (err, result, fields) => {
+            if (err) throw err;
+            res.status(200).send();
+          }
+        );
+      }
+    );
+  } else if (req.body.type == "AnswerPosted") {
+    const data = req.body.data;
+    const user_id = data.user_id;
+    const answer_id = data.answer_id;
+    const body = data.answer;
+    const time = data.timestamp;
+    const question_id = data.question_id;
+    con.query(
+      "INSERT IGNORE INTO answer(answer_id, question_id, user_id, body, timestamp) VALUES (?)",
+      [[answer_id, question_id, user_id, body, time]],
+      (err, result, fields) => {
+        if (err) throw err;
+        res.status(200).send();
+      }
+    );
+  } else {
+    res.status(200).send();
+  }
 });
 
 app.listen(4004, () => {

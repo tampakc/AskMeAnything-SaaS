@@ -23,22 +23,26 @@ app.post("/answer", authenticateToken, (req, res) => {
 
   const question_id = req.body.question_id;
   const answer = req.body.answer;
-  const user_id = req.user;
+  const user_id = req.user.id;
   const time = req.body.timestamp;
 
   con.query(
     "INSERT INTO answer(user_id, question_id, body, timestamp) VALUES (?, ?, ?, ?)",
     [user_id, question_id, answer, time],
     (err, result, fields) => {
-      if (err) throw err;
-      res.status(200).send(result.insertId);
+      if (err) {
+        res.status(500).send("Database error");
+        return;
+      }
+      res.status(200).send(result.insertId.toString());
       axios.post("http://localhost:4005/events", {
         type: "AnswerPosted",
         data: {
-          id: result.insertId,
+          user_id,
+          answer_id: result.insertId,
           answer,
           question_id,
-          time,
+          timestamp: time,
         },
       });
     }

@@ -20,14 +20,12 @@ const con = mysql.createConnection({
 
 app.get("/question/:id", async (req, res) => {});
 
-app.get("/question", (req, res) => {});
-
 app.post("/question", authenticateToken, (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
   const question = req.body.question;
   const title = req.body.title;
-  const user_id = req.user;
+  const user_id = req.user.id;
   const keywords = req.body.keywords;
   const time = req.body.timestamp;
 
@@ -35,24 +33,35 @@ app.post("/question", authenticateToken, (req, res) => {
     "INSERT INTO question(user_id, title, body, timestamp) VALUES (?, ?, ?, ?)",
     [user_id, title, question, time],
     (err, result, fields) => {
-      if (err) throw err;
-      res.status(200).send(result.insertId);
-      axios.post("http://localhost:4005/events", {
-        type: "QuestionPosted",
-        data: {
-          id: result.insertId,
-          title,
-          question,
-          time,
-        },
-      });
-      axios.post("http://localhost:4005/events", {
-        type: "KeywordsPosted",
-        data: {
-          id: result.insertId,
-          keywords,
-        },
-      });
+      if (err) {
+        res.status(500).send("Database error");
+        return;
+      }
+      res.status(200).send(result.insertId.toString());
+      axios
+        .post("http://localhost:4005/events", {
+          type: "QuestionPosted",
+          data: {
+            id: result.insertId,
+            title,
+            question,
+            time,
+          },
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .post("http://localhost:4005/events", {
+          type: "KeywordsPosted",
+          data: {
+            id: result.insertId,
+            keywords,
+          },
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   );
 });

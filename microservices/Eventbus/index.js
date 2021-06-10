@@ -23,17 +23,21 @@ const routing = {
   KeywordsUpdated: [query],
 };
 
-app.post("/event", (req, res) => {
+app.post("/events", (req, res) => {
   //we have confirmed that the token is valid so we can continue
 
   const type = req.body.type;
   const data = req.body.data;
 
   for (target of routing[type]) {
-    axios.post(target, {
-      type,
-      data,
-    });
+    axios
+      .post(target, {
+        type,
+        data,
+      })
+      .then((response) => {
+        res.status(200).send(response.data);
+      });
   }
   res.status(200);
 });
