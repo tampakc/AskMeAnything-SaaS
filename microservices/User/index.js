@@ -3,12 +3,24 @@ const cors = require("cors");
 const mysql = require("mysql");
 const fs = require("fs");
 const Joi = require("joi");
-require('dotenv').config()
+require("dotenv").config();
 const { createKey } = require("../Auth/Authenticate");
 
 const port = 3306; //change this
 
 const schema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required(),
+
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
+
+  first_name: Joi.string().default("NULL"),
+
+  last_name: Joi.string().default("NULL"),
+
+  repeat_password: Joi.ref("password"),
+}).with("password", "repeat_password");
+
+const schema2 = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
 
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
