@@ -309,6 +309,21 @@ app.post("/events", (req, res) => {
         res.status(200).send();
       }
     );
+  } else if (req.body.type == "QuestionPosted") {
+    const data = req.body.data;
+    const user_id = data.user_id;
+    const question_id = data.question_id;
+    const body = data.question;
+    const time = data.timestamp;
+    const title = data.title;
+    con.query(
+      "INSERT IGNORE INTO question(question_id, user_id, title, body, timestamp) VALUES (?)",
+      [[question_id, user_id, title, body, time]],
+      (err, result, fields) => {
+        if (err) throw err;
+        res.status(200).send();
+      }
+    );
   } else {
     res.status(200).send();
   }

@@ -42,10 +42,11 @@ app.post("/question", authenticateToken, (req, res) => {
         .post("http://localhost:4005/events", {
           type: "QuestionPosted",
           data: {
-            id: result.insertId,
+            question_id: result.insertId,
             title,
             question,
-            time,
+            timestamp: time,
+            user_id,
           },
         })
         .catch((error) => {
