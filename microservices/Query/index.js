@@ -268,14 +268,19 @@ app.get("/query/keyword/:keyword", (req, res) => {
 
 app.post("/events", (req, res) => {
   if (req.body.type == "KeywordsUpdated") {
-    const keywords = req.body.data.keywords;
+    let keywords = req.body.data.keywords;
+    //console.log(keywords);
+    //console.log("Error about to happen");
     const id = req.body.data.id;
     let hasword = [];
     for (let word of keywords) {
       hasword.push([id, word.keyword_id]);
     }
+    for (i = 0; i < keywords.length; i++) {
+      keywords[i] = [keywords[i].keyword_id, keywords[i].word];
+    }
     con.query(
-      "INSERT IGNORE INTO keyword(question_id, keyword_id) VALUES (?)",
+      "INSERT IGNORE INTO keyword(keyword_id, word) VALUES ?",
       [keywords],
       (err, result, fields) => {
         if (err) throw err;

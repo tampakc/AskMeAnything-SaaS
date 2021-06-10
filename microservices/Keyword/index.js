@@ -31,20 +31,26 @@ app.get("/keyword/byquestions", (req, res) => {
 });
 
 app.post("/events", (req, res) => {
-  con.beginTransaction((err) => {
-    if (err) {
-      res.status(500).send("Database error");
-      con.rollback((err) => {});
-      return;
-    }
-    const keywords = req.body.data.keywords;
-    console.log(keywords);
-    if (req.body.type == "KeywordsPosted") {
+  if (req.body.type == "KeywordsPosted") {
+    let keywords = req.body.data.keywords;
+    //console.log("Event KeywordsPosted arrived at Keywords service");
+    //console.log(keywords);
+    con.beginTransaction((err) => {
+      if (err) {
+        //console.log("Error1");
+        res.status(500).send("Database error");
+        con.rollback((err) => {});
+        return;
+      }
+      for (i = 0; i < keywords.length; i++) {
+        keywords[i] = [keywords[i]];
+      }
       con.query(
-        "INSERT IGNORE INTO keyword VALUES (?)",
+        "INSERT IGNORE INTO keyword(word) VALUES ?",
         [keywords],
         (err, result, fields) => {
           if (err) {
+            //console.log(err);
             res.status(500).send("Database error");
             con.rollback((err) => {});
             return;
@@ -54,6 +60,7 @@ app.post("/events", (req, res) => {
             [req.body.data.id, keywords],
             (err, result, fields) => {
               if (err) {
+                //console.log("Error3");
                 res.status(500).send("Database error");
                 con.rollback((err) => {});
                 return;
@@ -82,10 +89,10 @@ app.post("/events", (req, res) => {
           );
         }
       );
-    } else {
-      res.status(200).send();
-    }
-  });
+    });
+  } else {
+    res.status(200).send();
+  }
 });
 
 app.listen(4003, () => {
