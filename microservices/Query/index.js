@@ -312,7 +312,7 @@ app.get("/query/dashboard/user/daily", authenticateToken, (req, res) => {
 
   console.log("hi");
   con.query(
-    "SELECT (SELECT COUNT(*) FROM answer WHERE user_id = ?) AS answers, (SELECT COUNT(*) FROM question WHERE user_id = ?) AS questions FROM answer a INNER JOIN user u ON u.user_id = a.user_id WHERE a.user_id = ? GROUP BY DATE(a.timestamp)",
+    "SELECT date, questions, answers FROM `contributions` WHERE user = ?",
     [user_id],
     (err, result, fields) => {
       if (err) {
@@ -380,6 +380,18 @@ app.post("/events", (req, res) => {
       [[question_id, user_id, title, body, time]],
       (err, result, fields) => {
         if (err) throw err;
+        res.status(200).send();
+      }
+    );
+  } else if (req.body.type == "UserCreated") {
+    con.query(
+      "INSERT INTO user(user_id, username) VALUES (?)",
+      [req.data.user_id, req.data.username],
+      (err, result, fields) => {
+        if (err) {
+          res.status(500).send();
+          return;
+        }
         res.status(200).send();
       }
     );

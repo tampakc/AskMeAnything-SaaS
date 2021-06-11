@@ -5,6 +5,7 @@ const fs = require("fs");
 const Joi = require("joi");
 require("dotenv").config();
 const { createKey } = require("../Auth/Authenticate");
+const { default: axios } = require("axios");
 
 const port = 3306; //change this
 
@@ -110,10 +111,14 @@ app.post("/signup", (req, res) => {
               if (err) throw err;
               //console.log(result.insertId);
               res.status(200).send("User has been created.");
+              axios.post("https://localhost/4005/events", {
+                type: "UserCreated",
+                data: { user_id: result.insertID, username: details.username },
+              });
             }
           );
         } else {
-          res.status(400).send("Email or usename not available.");
+          res.status(400).send("Email or username not available.");
         }
       }
     );
