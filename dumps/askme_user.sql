@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2021 at 02:09 PM
+-- Generation Time: Jun 11, 2021 at 02:59 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `user` (
   `user_id` int(5) NOT NULL,
-  `first_name` varchar(15) NOT NULL,
-  `last_name` varchar(15) NOT NULL,
+  `first_name` varchar(15) DEFAULT NULL,
+  `last_name` varchar(15) DEFAULT NULL,
   `username` varchar(15) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `sex` int(2) NOT NULL,
-  `phone` varchar(15) NOT NULL
+  `email` varchar(50) DEFAULT NULL,
+  `sex` int(2) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -142,8 +142,7 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `username`, `password`
 (97, 'Shannon', 'Atkinson', 'NKJ63KLG2GP', 'IQD86UUK6EV', 'mauris.erat.eget@nullaDonec.org', 1, '1-729-522-1606'),
 (98, 'Jasmine', 'Dotson', 'JRU18MZL6CY', 'NEU82WPE5JO', 'aliquam@elementumsem.ca', 2, '1-374-927-4876'),
 (99, 'Reece', 'Cantu', 'RMR22QUJ4DI', 'DLE92WYM1WQ', 'vestibulum@eratinconsectetuer.co.uk', 3, '1-825-555-4764'),
-(100, 'Jasmine', 'Hurst', 'ZJP51SVZ0LH', 'ZWU17KJS5VA', 'arcu.Curabitur@adipiscingMaurismolestie.org', 1, '1-354-837-1826'),
-(101, 'Chris', 'Tabakakis', 'tampakc', '12345678', 'tampakc@yahoo.gr', 1, '1234567890');
+(100, 'Jasmine', 'Hurst', 'ZJP51SVZ0LH', 'ZWU17KJS5VA', 'arcu.Curabitur@adipiscingMaurismolestie.org', 1, '1-354-837-1826');
 
 --
 -- Indexes for dumped tables
@@ -163,7 +162,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

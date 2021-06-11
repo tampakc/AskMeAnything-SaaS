@@ -17,9 +17,7 @@ const schema = Joi.object({
   first_name: Joi.string().default("NULL"),
 
   last_name: Joi.string().default("NULL"),
-
-  repeat_password: Joi.ref("password"),
-}).with("password", "repeat_password");
+});
 
 const schema2 = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -111,9 +109,9 @@ app.post("/signup", (req, res) => {
               if (err) throw err;
               //console.log(result.insertId);
               res.status(200).send("User has been created.");
-              axios.post("https://localhost/4005/events", {
+              axios.post("http://localhost:4005/events", {
                 type: "UserCreated",
-                data: { user_id: result.insertID, username: details.username },
+                data: { user_id: result.insertId, username: details.username },
               });
             }
           );

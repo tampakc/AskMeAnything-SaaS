@@ -21,6 +21,7 @@ const routing = {
   AnswerPosted: [query],
   KeywordsPosted: [keyword],
   KeywordsUpdated: [query],
+  UserCreated: [query],
 };
 
 app.post("/events", (req, res) => {
@@ -29,7 +30,10 @@ app.post("/events", (req, res) => {
   const type = req.body.type;
   const data = req.body.data;
 
+  //console.log("received event of type " + type);
+
   for (target of routing[type]) {
+    //console.log("Sending it to " + target);
     axios
       .post(target, {
         type,

@@ -384,11 +384,13 @@ app.post("/events", (req, res) => {
       }
     );
   } else if (req.body.type == "UserCreated") {
+    //console.log("User Created!");
     con.query(
       "INSERT INTO user(user_id, username) VALUES (?)",
-      [req.data.user_id, req.data.username],
+      [[req.body.data.user_id, req.body.data.username]],
       (err, result, fields) => {
         if (err) {
+          throw err;
           res.status(500).send();
           return;
         }
