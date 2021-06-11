@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
+const { authenticateToken } = require("../Auth/Authenticate");
 
 const port = 3306; //change this
 
@@ -262,6 +263,64 @@ app.get("/query/keyword/:keyword", (req, res) => {
           }
         );
       }
+    }
+  );
+});
+
+app.get("/query/dashboard/user", authenticateToken, (req, res) => {
+  const user_id = req.user.id;
+  let reply = { questions: [], answers: [] };
+  let counter = 2;
+  con.query(
+    "SELECT * FROM question q INNER JOIN user u ON q.user_id = u.user_id WHERE q.user_id = ?",
+    [user_id],
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database error");
+        console.log(err);
+        return;
+      }
+      if (result.length > 0) {
+        reply.questions = result;
+      }
+      counter = counter - 1;
+      if (counter == 0) res.status(200).send(reply);
+    }
+  );
+
+  con.query(
+    "SELECT a.*, q.title FROM answer a INNER JOIN question q ON q.question_id = a.question_id INNER JOIN user u ON u.user_id = a.user_id WHERE a.user_id = ?",
+    [user_id],
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database error");
+        console.log(err);
+        return;
+      }
+      if (result.length > 0) {
+        reply.answers = result;
+      }
+
+      counter = counter - 1;
+      if (counter == 0) res.status(200).send(reply);
+    }
+  );
+});
+
+app.get("/query/dashboard/user/daily", authenticateToken, (req, res) => {
+  const user_id = req.user.id;
+
+  console.log("hi");
+  con.query(
+    "SELECT (SELECT COUNT(*) FROM answer WHERE user_id = ?) AS answers, (SELECT COUNT(*) FROM question WHERE user_id = ?) AS questions FROM answer a INNER JOIN user u ON u.user_id = a.user_id WHERE a.user_id = ? GROUP BY DATE(a.timestamp)",
+    [user_id],
+    (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Database error");
+        return;
+      }
+      res.status(200).send(result);
     }
   );
 });

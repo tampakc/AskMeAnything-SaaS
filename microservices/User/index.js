@@ -70,7 +70,7 @@ app.post("/login", (req, res) => {
         };
         const token = createKey(body);
         //console.log(token);
-        res.status(200).send(token);
+        res.status(200).send({ token, username });
       } else {
         res.status(401).send("Password Invalid");
       }
