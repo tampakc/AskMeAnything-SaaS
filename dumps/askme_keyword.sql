@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Φιλοξενητής: 127.0.0.1:3307
--- Χρόνος δημιουργίας: 09 Ιουν 2021 στις 20:24:33
--- Έκδοση διακομιστή: 10.4.17-MariaDB
--- Έκδοση PHP: 8.0.0
+-- Host: 127.0.0.1
+-- Generation Time: Jun 11, 2021 at 02:09 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Βάση δεδομένων: `askme_keyword`
+-- Database: `askme_keyword`
 --
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `hasword`
+-- Table structure for table `hasword`
 --
 
 CREATE TABLE `hasword` (
@@ -33,7 +33,7 @@ CREATE TABLE `hasword` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Άδειασμα δεδομένων του πίνακα `hasword`
+-- Dumping data for table `hasword`
 --
 
 INSERT INTO `hasword` (`question_id`, `keyword_id`) VALUES
@@ -296,12 +296,14 @@ INSERT INTO `hasword` (`question_id`, `keyword_id`) VALUES
 (99, 75),
 (99, 137),
 (100, 128),
-(100, 193);
+(100, 193),
+(119, 232),
+(119, 233);
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `keyword`
+-- Table structure for table `keyword`
 --
 
 CREATE TABLE `keyword` (
@@ -310,244 +312,247 @@ CREATE TABLE `keyword` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Άδειασμα δεδομένων του πίνακα `keyword`
+-- Dumping data for table `keyword`
 --
 
 INSERT INTO `keyword` (`keyword_id`, `word`) VALUES
-(1, 'magna.'),
-(2, 'sagittis'),
-(3, 'rhoncus.'),
-(4, 'Cras'),
-(5, 'Pellentesque'),
 (6, 'a'),
-(7, 'mauris'),
-(8, 'magnis'),
-(9, 'consectetuer'),
-(10, 'nisi'),
-(11, 'word11'),
-(12, 'tincidunt'),
-(13, 'orci.'),
-(14, 'placerat.'),
-(15, 'word15'),
-(16, 'enim'),
-(17, 'erat'),
-(18, 'nulla.'),
-(19, 'primis'),
-(20, 'dui,'),
-(21, 'cursus,'),
+(57, 'a,'),
+(131, 'ac'),
+(134, 'ad'),
 (22, 'adipiscing'),
-(23, 'sit'),
-(24, 'vel,'),
-(25, 'hendrerit'),
-(26, 'Vivamus'),
+(186, 'adipiscing.'),
+(89, 'amet,'),
+(101, 'ante'),
+(107, 'ante.'),
+(97, 'arcu'),
 (27, 'at'),
-(28, 'dictum'),
-(29, 'eu'),
-(30, 'word30'),
-(31, 'fringilla'),
-(32, 'diam'),
-(33, 'gravida'),
-(34, 'word34'),
-(35, 'mi,'),
-(36, 'eget,'),
-(37, 'molestie'),
-(38, 'word38'),
-(39, 'eget'),
-(40, 'ornare'),
-(41, 'word41'),
-(42, 'nascetur'),
-(43, 'metus'),
-(44, 'Etiam'),
-(45, 'pharetra'),
-(46, 'egestas'),
+(187, 'auctor'),
+(158, 'auctor,'),
+(129, 'augue'),
+(188, 'congue'),
+(9, 'consectetuer'),
+(51, 'consequat'),
+(4, 'Cras'),
 (47, 'Cum'),
+(21, 'cursus,'),
+(142, 'cursus.'),
+(85, 'dapibus'),
+(32, 'diam'),
+(163, 'diam.'),
+(28, 'dictum'),
+(64, 'dolor,'),
+(100, 'dolor.'),
+(173, 'Donec'),
+(20, 'dui,'),
+(87, 'dui.'),
+(46, 'egestas'),
+(39, 'eget'),
+(36, 'eget,'),
+(170, 'eleifend'),
+(16, 'enim'),
+(92, 'enim.'),
+(17, 'erat'),
+(143, 'erat,'),
+(73, 'erat.'),
+(68, 'eros.'),
+(176, 'est,'),
+(44, 'Etiam'),
+(29, 'eu'),
+(82, 'euismod'),
+(75, 'facilisi.'),
+(157, 'fames'),
+(65, 'fermentum'),
+(31, 'fringilla'),
+(91, 'Fusce'),
+(33, 'gravida'),
+(84, 'habitant'),
+(233, 'hello'),
+(25, 'hendrerit'),
+(232, 'hiya'),
+(114, 'id,'),
+(71, 'In'),
+(86, 'in,'),
+(123, 'interdum'),
+(177, 'ipsum'),
+(146, 'justo'),
 (48, 'lacinia'),
 (49, 'lacus.'),
-(50, 'word50'),
-(51, 'consequat'),
-(52, 'tempor,'),
-(53, 'word53'),
-(54, 'Sed'),
-(55, 'nulla'),
-(56, 'word56'),
-(57, 'a,'),
-(58, 'tincidunt,'),
-(59, 'mus.'),
-(60, 'morbi'),
-(61, 'tellus'),
-(62, 'word62'),
-(63, 'orci'),
-(64, 'dolor,'),
-(65, 'fermentum'),
-(66, 'Ut'),
-(67, 'urna.'),
-(68, 'eros.'),
-(69, 'turpis.'),
+(119, 'lectus.'),
+(144, 'libero'),
+(168, 'lobortis'),
+(150, 'lorem'),
+(137, 'luctus'),
+(1, 'magna.'),
+(8, 'magnis'),
+(120, 'malesuada'),
 (70, 'massa'),
-(71, 'In'),
-(72, 'word72'),
-(73, 'erat.'),
-(74, 'non'),
-(75, 'facilisi.'),
-(76, 'word76'),
-(77, 'mauris.'),
-(78, 'sagittis.'),
+(112, 'massa.'),
 (79, 'mattis.'),
-(80, 'neque'),
-(81, 'nunc'),
-(82, 'euismod'),
-(83, 'quam.'),
-(84, 'habitant'),
-(85, 'dapibus'),
-(86, 'in,'),
-(87, 'dui.'),
-(88, 'word88'),
-(89, 'amet,'),
-(90, 'word90'),
-(91, 'Fusce'),
-(92, 'enim.'),
-(93, 'nec,'),
-(94, 'word94'),
-(95, 'word95'),
-(96, 'word96'),
-(97, 'arcu'),
-(98, 'word98'),
-(99, 'word99'),
-(100, 'dolor.'),
-(101, 'ante'),
-(102, 'nibh.'),
-(103, 'word103'),
+(7, 'mauris'),
+(77, 'mauris.'),
+(43, 'metus'),
+(135, 'metus.'),
+(35, 'mi,'),
+(37, 'molestie'),
+(60, 'morbi'),
+(59, 'mus.'),
+(193, 'Nam'),
+(42, 'nascetur'),
 (104, 'natoque'),
+(93, 'nec,'),
+(80, 'neque'),
+(196, 'neque.'),
+(102, 'nibh.'),
+(10, 'nisi'),
+(136, 'nisi.'),
+(139, 'nisl'),
+(74, 'non'),
+(55, 'nulla'),
+(18, 'nulla.'),
+(81, 'nunc'),
+(115, 'nunc.'),
+(63, 'orci'),
+(13, 'orci.'),
+(40, 'ornare'),
+(130, 'parturient'),
+(111, 'pede.'),
+(5, 'Pellentesque'),
+(45, 'pharetra'),
+(179, 'pharetra.'),
+(151, 'placerat,'),
+(14, 'placerat.'),
+(161, 'posuere'),
+(19, 'primis'),
 (105, 'Proin'),
+(83, 'quam.'),
+(3, 'rhoncus.'),
+(127, 'risus.'),
+(2, 'sagittis'),
+(78, 'sagittis.'),
+(147, 'sapien'),
+(171, 'sapien,'),
+(113, 'scelerisque'),
+(54, 'Sed'),
+(116, 'semper'),
+(23, 'sit'),
+(191, 'sollicitudin'),
+(61, 'tellus'),
+(153, 'tempor'),
+(52, 'tempor,'),
+(12, 'tincidunt'),
+(58, 'tincidunt,'),
+(118, 'tristique'),
+(69, 'turpis.'),
+(138, 'ultricies'),
+(67, 'urna.'),
+(66, 'Ut'),
+(132, 'varius'),
+(110, 'vel'),
+(24, 'vel,'),
+(26, 'Vivamus'),
+(103, 'word103'),
 (106, 'word106'),
-(107, 'ante.'),
 (108, 'word108'),
 (109, 'word109'),
-(110, 'vel'),
-(111, 'pede.'),
-(112, 'massa.'),
-(113, 'scelerisque'),
-(114, 'id,'),
-(115, 'nunc.'),
-(116, 'semper'),
+(11, 'word11'),
 (117, 'word117'),
-(118, 'tristique'),
-(119, 'lectus.'),
-(120, 'malesuada'),
 (121, 'word121'),
 (122, 'word122'),
-(123, 'interdum'),
 (124, 'word124'),
 (125, 'word125'),
 (126, 'word126'),
-(127, 'risus.'),
 (128, 'word128'),
-(129, 'augue'),
-(130, 'parturient'),
-(131, 'ac'),
-(132, 'varius'),
 (133, 'word133'),
-(134, 'ad'),
-(135, 'metus.'),
-(136, 'nisi.'),
-(137, 'luctus'),
-(138, 'ultricies'),
-(139, 'nisl'),
 (140, 'word140'),
 (141, 'word141'),
-(142, 'cursus.'),
-(143, 'erat,'),
-(144, 'libero'),
 (145, 'word145'),
-(146, 'justo'),
-(147, 'sapien'),
 (148, 'word148'),
 (149, 'word149'),
-(150, 'lorem'),
-(151, 'placerat,'),
+(15, 'word15'),
 (152, 'word152'),
-(153, 'tempor'),
 (154, 'word154'),
 (155, 'word155'),
 (156, 'word156'),
-(157, 'fames'),
-(158, 'auctor,'),
 (159, 'word159'),
 (160, 'word160'),
-(161, 'posuere'),
 (162, 'word162'),
-(163, 'diam.'),
 (164, 'word164'),
 (165, 'word165'),
 (166, 'word166'),
 (167, 'word167'),
-(168, 'lobortis'),
 (169, 'word169'),
-(170, 'eleifend'),
-(171, 'sapien,'),
 (172, 'word172'),
-(173, 'Donec'),
 (174, 'word174'),
 (175, 'word175'),
-(176, 'est,'),
-(177, 'ipsum'),
 (178, 'word178'),
-(179, 'pharetra.'),
 (180, 'word180'),
 (181, 'word181'),
 (182, 'word182'),
 (183, 'word183'),
 (184, 'word184'),
 (185, 'word185'),
-(186, 'adipiscing.'),
-(187, 'auctor'),
-(188, 'congue'),
 (189, 'word189'),
 (190, 'word190'),
-(191, 'sollicitudin'),
 (192, 'word192'),
-(193, 'Nam'),
 (194, 'word194'),
 (195, 'word195'),
-(196, 'neque.'),
 (197, 'word197'),
 (198, 'word198'),
 (199, 'word199'),
-(200, 'word200');
+(200, 'word200'),
+(30, 'word30'),
+(34, 'word34'),
+(38, 'word38'),
+(41, 'word41'),
+(50, 'word50'),
+(53, 'word53'),
+(56, 'word56'),
+(62, 'word62'),
+(72, 'word72'),
+(76, 'word76'),
+(88, 'word88'),
+(90, 'word90'),
+(94, 'word94'),
+(95, 'word95'),
+(96, 'word96'),
+(98, 'word98'),
+(99, 'word99');
 
 --
--- Ευρετήρια για άχρηστους πίνακες
+-- Indexes for dumped tables
 --
 
 --
--- Ευρετήρια για πίνακα `hasword`
+-- Indexes for table `hasword`
 --
 ALTER TABLE `hasword`
   ADD PRIMARY KEY (`question_id`,`keyword_id`),
   ADD KEY `haskeyword` (`keyword_id`);
 
 --
--- Ευρετήρια για πίνακα `keyword`
+-- Indexes for table `keyword`
 --
 ALTER TABLE `keyword`
-  ADD PRIMARY KEY (`keyword_id`);
+  ADD PRIMARY KEY (`keyword_id`),
+  ADD UNIQUE KEY `word` (`word`);
 
 --
--- AUTO_INCREMENT για άχρηστους πίνακες
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT για πίνακα `keyword`
+-- AUTO_INCREMENT for table `keyword`
 --
 ALTER TABLE `keyword`
-  MODIFY `keyword_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
+  MODIFY `keyword_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
--- Περιορισμοί για άχρηστους πίνακες
+-- Constraints for dumped tables
 --
 
 --
--- Περιορισμοί για πίνακα `hasword`
+-- Constraints for table `hasword`
 --
 ALTER TABLE `hasword`
   ADD CONSTRAINT `haskeyword` FOREIGN KEY (`keyword_id`) REFERENCES `keyword` (`keyword_id`);
