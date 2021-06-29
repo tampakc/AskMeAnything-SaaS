@@ -30,13 +30,6 @@ const Navbar = ({ token, setToken }) => {
       return (
         <>
           <NavLink
-            className="navbar-item"
-            activeClassName="selected"
-            to="/dashboard"
-          >
-            Profile
-          </NavLink>
-          <NavLink
             className="navbar-login"
             style={{ marginRight: "40px" }}
             exact
@@ -44,6 +37,13 @@ const Navbar = ({ token, setToken }) => {
             onClick={handleLogout}
           >
             Log out
+          </NavLink>
+          <NavLink
+            className="navbar-login"
+            activeClassName="selected"
+            to="/dashboard"
+          >
+            Profile
           </NavLink>
         </>
       );
@@ -70,6 +70,24 @@ const Navbar = ({ token, setToken }) => {
           to="/about"
         >
           About
+        </NavLink>
+        <NavLink
+          className="navbar-item"
+          activeClassName="selected"
+          exact
+          to="/askquestion"
+          style={{ marginLeft: "50px", width: "200px" }}
+        >
+          Ask a Question
+        </NavLink>
+        <NavLink
+          className="navbar-item"
+          activeClassName="selected"
+          exact
+          to="/questions-list/1"
+          style={{ width: "200px" }}
+        >
+          View Questions
         </NavLink>
         {renderAuth()}
       </div>

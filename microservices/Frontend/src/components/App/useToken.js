@@ -2,20 +2,23 @@ import { useState } from "react";
 
 export default function useToken() {
   const getToken = () => {
-    const tokenString = localStorage.getItem("token");
-    const userToken = JSON.parse(tokenString);
-    return userToken?.token;
+    return localStorage.getItem("LoginToken");
   };
 
   const [token, setToken] = useState(getToken());
 
   const saveToken = (userToken) => {
-    localStorage.setItem("token", JSON.stringify(userToken));
-    setToken(userToken?.token);
+    if (userToken !== null) {
+      localStorage.setItem("LoginToken", userToken);
+      setToken(userToken?.token);
+
+      window.location.reload();
+    } else {
+      localStorage.removeItem("LoginToken");
+
+      window.location.assign("/");
+    }
   };
 
-  return {
-    setToken: saveToken,
-    token,
-  };
+  return { token, setToken: saveToken };
 }

@@ -1,0 +1,13 @@
+.form-font {
+  float: left;
+  position: absolute;
+  text-align: left;
+  left: 140px;
+  top: 110px;
+  width: 100%;
+  min-width: 300px;
+}
+
+.display-wrapper {
+  margin-top: 180px;
+}

@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Redirect } from "react-router";
-import { loginUser } from "./loginUser.js";
-
 import "../App/Style.css";
 import "./Login.css";
+import axios from "axios";
 
-const Login = ({ token, setToken }) => {
+const Login = ({ token, tokenHandle }) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
   if (!token) {
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const token_new = await loginUser({
-        username,
-        password,
-      });
-      setToken(token_new);
+
+      await axios
+        .post("http://localhost:4000/login", {
+          username,
+          password,
+        })
+        .then((response) => {
+          tokenHandle(response.data);
+        });
     };
 
     return (
@@ -80,10 +82,6 @@ const Login = ({ token, setToken }) => {
   } else {
     return <Redirect to="/" />;
   }
-};
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
 };
 
 export default Login;

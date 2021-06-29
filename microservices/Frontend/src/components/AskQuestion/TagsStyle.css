@@ -1,0 +1,87 @@
+.tag-wrapper {
+  background: #292930;
+  width: 75%;
+  border: thin solid transparent;
+  border-radius: 2px;
+  padding: 10px;
+  padding-right: 30px;
+  margin-left: 50%;
+  transform: translate(-50%, 0%);
+  margin-bottom: 20px;
+}
+
+.create-tags-wrapper {
+  background: white;
+  border: thin solid transparent;
+  border-radius: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 15px 0 5px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  min-height: 40px;
+  width: 100%;
+}
+
+.create-tags-wrapper:focus-within {
+  box-shadow: 0 0 0 3pt #7fc2a3;
+  border: thin solid #347758;
+}
+
+.tags-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.tags-list li {
+  align-items: center;
+  background: #7fc2a3;
+  border-radius: 2px;
+  color: white;
+  display: flex;
+  font-weight: 400;
+  list-style: none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px 10px;
+}
+
+.tags-list button {
+  align-items: center;
+  background: #333333;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  height: 15px;
+  width: 15px;
+  justify-content: center;
+  margin-left: 9px;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.tags-list li.tags-input {
+  background: none;
+  flex-grow: 1;
+}
+
+.tags-input-field {
+  padding: 0;
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+.font-center {
+  align-items: center;
+  margin-bottom: 5px;
+  justify-content: center;
+  padding: 0;
+}
