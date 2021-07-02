@@ -2,9 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
+require("dotenv").config();
 const { authenticateToken } = require("../Auth/Authenticate");
 
-const port = 3306; //change this
+const dbport = process.env.dbport;
+const eventport = process.env.eventport;
+const serviceport = process.env.serviceport;
+
+const eventservice = "http://localhost:" + eventport + "/events";
 
 const app = express();
 app.use(express.json());
@@ -15,7 +20,7 @@ const con = mysql.createConnection({
   user: "questionbackend",
   password: "question123",
   database: "askme_question",
-  port,
+  port: dbport,
 });
 
 app.get("/question/:id", async (req, res) => {});
@@ -39,7 +44,7 @@ app.post("/question", authenticateToken, (req, res) => {
       }
       res.status(200).send(result.insertId.toString());
       axios
-        .post("http://localhost:4005/events", {
+        .post(eventservice, {
           type: "QuestionPosted",
           data: {
             question_id: result.insertId,
@@ -53,7 +58,7 @@ app.post("/question", authenticateToken, (req, res) => {
           console.log(error);
         });
       axios
-        .post("http://localhost:4005/events", {
+        .post(eventservice, {
           type: "KeywordsPosted",
           data: {
             id: result.insertId,
@@ -67,6 +72,6 @@ app.post("/question", authenticateToken, (req, res) => {
   );
 });
 
-app.listen(4001, () => {
-  console.log("Listening on port 4001...");
+app.listen(serviceport, () => {
+  console.log("Question service listening on port " + serviceport + "...");
 });

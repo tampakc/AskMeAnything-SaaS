@@ -2,9 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
+require('dotenv').config();
 const { authenticateToken } = require("../Auth/Authenticate");
 
-const port = 3306; //change this
+const dbport = process.env.dbport;
+const serviceport = process.env.serviceport;
+const eventport = process.env.eventport;
+
+const eventservice = "http://localhost:" + eventport + "/events";
 
 const app = express();
 app.use(express.json());
@@ -15,7 +20,7 @@ const con = mysql.createConnection({
   user: "ansbackend",
   password: "answer123",
   database: "askme_answer",
-  port,
+  port: dbport,
 });
 
 app.post("/answer", authenticateToken, (req, res) => {
@@ -35,7 +40,7 @@ app.post("/answer", authenticateToken, (req, res) => {
         return;
       }
       res.status(200).send(result.insertId.toString());
-      axios.post("http://localhost:4005/events", {
+      axios.post(eventservice, {
         type: "AnswerPosted",
         data: {
           user_id,
@@ -49,6 +54,6 @@ app.post("/answer", authenticateToken, (req, res) => {
   );
 });
 
-app.listen(4002, () => {
-  console.log("Listening on port 4002...");
+app.listen(serviceport, () => {
+  console.log("Answer service listening on port " + serviceport + "...");
 });

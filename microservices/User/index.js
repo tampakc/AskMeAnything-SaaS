@@ -7,7 +7,11 @@ require("dotenv").config();
 const { createKey } = require("../Auth/Authenticate");
 const { default: axios } = require("axios");
 
-const port = 3306; //change this
+const dbport = process.env.dbport; //change this
+const eventport = process.env.eventport;
+const serviceport = process.env.serviceport;
+
+const eventservice = "http://localhost:" + eventport + "/events";
 
 const schema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -50,7 +54,7 @@ const con = mysql.createConnection({
   user: "userbackend",
   password: "userdata123",
   database: "askme_user",
-  port,
+  port: dbport,
 });
 
 app.post("/login", (req, res) => {
@@ -109,7 +113,7 @@ app.post("/signup", (req, res) => {
               if (err) throw err;
               //console.log(result.insertId);
               res.status(200).send("User has been created.");
-              axios.post("http://localhost:4005/events", {
+              axios.post(eventservice, {
                 type: "UserCreated",
                 data: { user_id: result.insertId, username: details.username },
               });
@@ -123,6 +127,6 @@ app.post("/signup", (req, res) => {
   }
 });
 
-app.listen(4000, () => {
-  console.log("User service listening on port 4000...");
+app.listen(serviceport, () => {
+  console.log("User service listening on port " + serviceport + "...");
 });

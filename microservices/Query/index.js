@@ -2,9 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
+require("dotenv").config();
 const { authenticateToken } = require("../Auth/Authenticate");
 
-const port = 3306; //change this
+const dbport = process.env.dbport; //change this
+const eventport = process.env.eventport;
+const serviceport = process.env.serviceport;
+
+const eventservice = "http://localhost:" + eventport + "/events";
 
 const app = express();
 app.use(express.json());
@@ -15,7 +20,7 @@ const con = mysql.createConnection({
   user: "querybackend",
   password: "query123",
   database: "askme_query",
-  port,
+  port: dbport,
 });
 
 app.get("/query/question/all", (req, res) => {
@@ -107,6 +112,22 @@ app.get("/query/question/all/titles", (req, res) => {
       if (result.length == 0) {
         res.status(404).send();
       } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
+app.get("/query/question/bydate", (req, res) => {
+  con.query(
+    "SELECT q.day AS date, COUNT(*) AS questions FROM (SELECT DATE(timestamp) AS day FROM question) q GROUP BY q.day ORDER BY `day`  ASC",
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database is down");
+      } else {
+        for (let a of result) {
+          a.date = a.date.toLocaleDateString();
+        }
         res.status(200).send(result);
       }
     }
@@ -227,7 +248,7 @@ app.get("/query/keyword/:keyword", (req, res) => {
   const qids = [];
 
   con.query(
-    "SELECT q.* FROM (SELECT * FROM `keyword` WHERE word = ?) k INNER JOIN hasword h ON h.keyword_id = k.keyword_id INNER JOIN question q ON q.question_id = h.question_id",
+    "SELECT q.*, u.username FROM (SELECT * FROM `keyword` WHERE word = ?) k INNER JOIN hasword h ON h.keyword_id = k.keyword_id INNER JOIN question q ON q.question_id = h.question_id INNER JOIN user u ON q.user_id = u.user_id",
     [keyword],
     (err, result, fields) => {
       if (err) throw err;
@@ -269,8 +290,8 @@ app.get("/query/keyword/:keyword", (req, res) => {
 
 app.get("/query/dashboard/user", authenticateToken, (req, res) => {
   const user_id = req.user.id;
-  let reply = { questions: [], answers: [] };
-  let counter = 2;
+  let reply = { questions: [], answers: [], contributions: [] };
+  let counter = 3;
   con.query(
     "SELECT * FROM question q INNER JOIN user u ON q.user_id = u.user_id WHERE q.user_id = ?",
     [user_id],
@@ -305,12 +326,7 @@ app.get("/query/dashboard/user", authenticateToken, (req, res) => {
       if (counter == 0) res.status(200).send(reply);
     }
   );
-});
 
-app.get("/query/dashboard/user/daily", authenticateToken, (req, res) => {
-  const user_id = req.user.id;
-
-  console.log("hi");
   con.query(
     "SELECT date, questions, answers FROM `contributions` WHERE user = ?",
     [user_id],
@@ -319,6 +335,34 @@ app.get("/query/dashboard/user/daily", authenticateToken, (req, res) => {
         console.log(err);
         res.status(500).send("Database error");
         return;
+      }
+      if (result.length > 0) {
+        for (let a of result) {
+          a.date = a.date.toLocaleDateString();
+        }
+        reply.contributions = result;
+      }
+
+      counter = counter - 1;
+      if (counter == 0) res.status(200).send(reply);
+    }
+  );
+});
+
+app.get("/query/dashboard/user/daily", authenticateToken, (req, res) => {
+  const user_id = req.user.id;
+
+  con.query(
+    "SELECT date, questions, answers FROM `contributions` WHERE user = ?",
+    [user_id],
+    (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Database error");
+        return;
+      }
+      for (let a of result) {
+        a.date = a.date.toLocaleDateString();
       }
       res.status(200).send(result);
     }
@@ -402,6 +446,6 @@ app.post("/events", (req, res) => {
   }
 });
 
-app.listen(4004, () => {
-  console.log("Listening on port 4004...");
+app.listen(serviceport, () => {
+  console.log("Query service listening on port " + serviceport + "...");
 });

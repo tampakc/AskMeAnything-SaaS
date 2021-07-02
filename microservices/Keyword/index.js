@@ -2,8 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
+require('dotenv').config();
 
-const port = 3306; //change this
+const dbport = process.env.dbport;
+const eventport = process.env.eventport;
+const serviceport = process.env.serviceport;
+
+const eventservice = "http://localhost:" + eventport + "/events";
 
 const app = express();
 app.use(express.json());
@@ -14,7 +19,7 @@ const con = mysql.createConnection({
   user: "keywordbackend",
   password: "keyword123",
   database: "askme_keyword",
-  port,
+  port: dbport,
 });
 
 app.get("/keyword/byquestions", (req, res) => {
@@ -75,7 +80,7 @@ app.post("/events", (req, res) => {
                   (err, result, fields) => {
                     if (err) throw err;
                     axios
-                      .post("http://localhost:4005/events", {
+                      .post(eventservice, {
                         type: "KeywordsUpdated",
                         data: { id: req.body.data.id, keywords: result },
                       })
@@ -95,6 +100,6 @@ app.post("/events", (req, res) => {
   }
 });
 
-app.listen(4003, () => {
-  console.log("Listening on port 4003...");
+app.listen(serviceport, () => {
+  console.log("Keyword service listening on port " + serviceport + "...");
 });

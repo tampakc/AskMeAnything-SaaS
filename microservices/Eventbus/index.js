@@ -7,6 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const serviceport = process.env.serviceport;
+
 const p1 = "http://localhost:";
 const p2 = "/events";
 
@@ -46,6 +48,6 @@ app.post("/events", (req, res) => {
   res.status(200);
 });
 
-app.listen(4005, () => {
-  console.log("Listening on port 4005...");
+app.listen(serviceport, () => {
+  console.log("Event bus listening on port " + serviceport + "...");
 });
