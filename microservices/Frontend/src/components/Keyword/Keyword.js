@@ -35,7 +35,7 @@ const Keyword = () => {
 
   return (
     <div>
-      <h1 className="form-font">
+      <h1 className="form-font-2">
         <span className="normal-font">{"Questions with tag " + tag} </span>
         <span className="colored-font"> !</span>
       </h1>

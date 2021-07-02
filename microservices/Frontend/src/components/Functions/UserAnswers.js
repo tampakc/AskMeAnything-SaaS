@@ -21,7 +21,9 @@ const UserAnswers = ({ answers }) => {
   });
 
   if (renderedAnswers.length === 0) {
-    renderedAnswers = <h3 className="normal-font">You have no Answers</h3>;
+    renderedAnswers = (
+      <span className="centered-font">You have no Answers</span>
+    );
   }
 
   return (
@@ -31,6 +33,7 @@ const UserAnswers = ({ answers }) => {
         onClick={() => {
           setShowAnswers(!showAnswers);
         }}
+        style={{ marginTop: "10px" }}
       >
         Your Answers:{" "}
       </button>
