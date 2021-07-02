@@ -4,6 +4,7 @@ import axios from "axios";
 
 import UserPosts from "../Functions/UserPosts";
 import UserAnswers from "../Functions/UserAnswers";
+import UserContributions from "../Functions/UserContributions";
 
 import "./Dashboard.css";
 
@@ -48,6 +49,7 @@ const Dashboard = ({ token, username }) => {
 
         <UserPosts posts={data.questions} />
         <UserAnswers answers={data.answers} />
+        <UserContributions contribs={data.contributions} />
       </div>
     );
   } else {
