@@ -20,7 +20,7 @@ app.post("/post/answer", (req, response) => {
     req.headers["x-observatory-auth"] || req.headers["authorization"];
 
   axios
-    .post(esb, {
+    .post(esb + "/event", {
       type: "AuthenticationNeeded",
       data: {
         token: authHeader,
@@ -54,11 +54,7 @@ app.post("/post/answer", (req, response) => {
 
 app.listen(serviceport, () => {
   console.log("Answer service listening on port " + serviceport + "...");
-  axios.post(esb, {
+  axios.post(esb + "/register", {
     type: "RegisterService",
-    data: {
-      provides: [],
-      at: "localhost:" + serviceport + "/auth",
-    },
   });
 });
