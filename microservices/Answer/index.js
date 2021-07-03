@@ -5,9 +5,9 @@ const mysql = require("mysql");
 require('dotenv').config();
 const { authenticateToken } = require("../Auth/Authenticate");
 
-const dbport = process.env.dbport;
-const serviceport = process.env.serviceport;
-const eventport = process.env.eventport;
+const dbport = process.env.dbport || 3306;
+const serviceport = process.env.serviceport || 4002;
+const eventport = process.env.eventport || 4005;
 
 const eventservice = "http://localhost:" + eventport + "/events";
 

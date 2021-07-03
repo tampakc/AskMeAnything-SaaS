@@ -7,16 +7,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const serviceport = process.env.serviceport;
+const serviceport = process.env.serviceport || 4005;
 
 const p1 = "http://localhost:";
 const p2 = "/events";
 
-const question = p1 + process.env.questionport + p2;
-const keyword = p1 + process.env.keywordport + p2;
-const answer = p1 + process.env.answerport + p2;
-const user = p1 + process.env.userport + p2;
-const query = p1 + process.env.queryport + p2;
+const question = p1 + (process.env.questionport || 4001) + p2;
+const keyword = p1 + (process.env.keywordport || 4003) + p2;
+const answer = p1 + (process.env.answerport || 4002) + p2;
+const user = p1 + (process.env.userport || 4000) + p2;
+const query = p1 + (process.env.queryport || 4004) + p2;
 
 const routing = {
   QuestionPosted: [query],

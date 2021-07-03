@@ -7,9 +7,9 @@ require("dotenv").config();
 const { createKey } = require("../Auth/Authenticate");
 const { default: axios } = require("axios");
 
-const dbport = process.env.dbport; //change this
-const eventport = process.env.eventport;
-const serviceport = process.env.serviceport;
+const dbport = process.env.dbport || 3306;
+const eventport = process.env.eventport || 4005;
+const serviceport = process.env.serviceport || 4000;
 
 const eventservice = "http://localhost:" + eventport + "/events";
 

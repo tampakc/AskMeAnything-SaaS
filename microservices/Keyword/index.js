@@ -4,9 +4,9 @@ const axios = require("axios");
 const mysql = require("mysql");
 require('dotenv').config();
 
-const dbport = process.env.dbport;
-const eventport = process.env.eventport;
-const serviceport = process.env.serviceport;
+const dbport = process.env.dbport || 3306;
+const eventport = process.env.eventport || 4005;
+const serviceport = process.env.serviceport || 4003;
 
 const eventservice = "http://localhost:" + eventport + "/events";
 
