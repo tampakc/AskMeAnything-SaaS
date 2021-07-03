@@ -49,7 +49,7 @@ const Dashboard = ({ token, username }) => {
 
         <UserPosts posts={data.questions} />
         <UserAnswers answers={data.answers} />
-        <UserContributions contribs={data.contributions} />
+        <UserContributions contributions={data.contributions} />
       </div>
     );
   } else {
