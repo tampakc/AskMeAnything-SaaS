@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.post("/register", (req, res) => {
-  if ((req.body.type = "RegisterService")) {
+  if (req.body.type == "RegisterService") {
     if (!req.body.provides) {
       res.status(200).send();
       return;
