@@ -2,8 +2,8 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Φιλοξενητής: 127.0.0.1:3307
--- Χρόνος δημιουργίας: 04 Ιουλ 2021 στις 11:06:03
+-- Φιλοξενητής: 127.0.0.1:3306
+-- Χρόνος δημιουργίας: 04 Ιουλ 2021 στις 15:44:14
 -- Έκδοση διακομιστή: 10.4.17-MariaDB
 -- Έκδοση PHP: 8.0.0
 
@@ -343,7 +343,33 @@ INSERT INTO `answer` (`answer_id`, `user_id`, `question_id`, `body`, `timestamp`
 (304, 1, 1, 'Yes it is', '2021-06-09 21:13:43'),
 (305, 1, 1, 'Yes it is', '2021-06-09 21:13:43'),
 (306, 124, 120, 'hiya', '2021-06-11 19:15:01'),
-(307, 124, 121, 'Git gud', '2021-07-03 15:05:13');
+(307, 124, 121, 'Git gud', '2021-07-03 15:05:13'),
+(312, 1, 1, 'Yes', '2021-07-04 10:44:13');
+
+-- --------------------------------------------------------
+
+--
+-- Στημένη δομή για προβολή `answersperdate`
+-- (Δείτε παρακάτω για την πραγματική προβολή)
+--
+CREATE TABLE `answersperdate` (
+`answers` bigint(21)
+,`user_id` int(5)
+,`date` date
+);
+
+-- --------------------------------------------------------
+
+--
+-- Στημένη δομή για προβολή `contributions`
+-- (Δείτε παρακάτω για την πραγματική προβολή)
+--
+CREATE TABLE `contributions` (
+`date` date
+,`user` int(11)
+,`questions` bigint(21)
+,`answers` bigint(21)
+);
 
 -- --------------------------------------------------------
 
@@ -625,7 +651,9 @@ INSERT INTO `hasword` (`question_id`, `keyword_id`) VALUES
 (119, 233),
 (120, 234),
 (121, 236),
-(121, 237);
+(121, 237),
+(123, 240),
+(123, 241);
 
 -- --------------------------------------------------------
 
@@ -694,6 +722,7 @@ INSERT INTO `keyword` (`keyword_id`, `word`) VALUES
 (234, 'fireemblem'),
 (31, 'fringilla'),
 (91, 'Fusce'),
+(241, 'gozaimasu'),
 (33, 'gravida'),
 (84, 'habitant'),
 (237, 'Hearts'),
@@ -743,6 +772,7 @@ INSERT INTO `keyword` (`keyword_id`, `word`) VALUES
 (18, 'nulla.'),
 (81, 'nunc'),
 (115, 'nunc.'),
+(240, 'ohayo'),
 (63, 'orci'),
 (13, 'orci.'),
 (40, 'ornare'),
@@ -971,7 +1001,20 @@ INSERT INTO `question` (`question_id`, `user_id`, `title`, `body`, `timestamp`) 
 (100, 13, 'Question100', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam', '2021-06-07 22:40:29'),
 (119, 1, 'title', 'What is this?', '2021-06-09 21:13:43'),
 (120, 124, 'Is this normal?', 'why my peepee no hard', '2021-06-11 19:13:38'),
-(121, 124, 'How do I beat the final boss?', 'It\'s too difficult for me I\'m level 1', '2021-07-03 15:05:02');
+(121, 124, 'How do I beat the final boss?', 'It\'s too difficult for me I\'m level 1', '2021-07-03 15:05:02'),
+(123, 1, 'What to do?', 'Self exlpanatory', '2021-07-04 10:44:13');
+
+-- --------------------------------------------------------
+
+--
+-- Στημένη δομή για προβολή `questionsperdate`
+-- (Δείτε παρακάτω για την πραγματική προβολή)
+--
+CREATE TABLE `questionsperdate` (
+`questions` bigint(21)
+,`user_id` int(5)
+,`date` date
+);
 
 -- --------------------------------------------------------
 
@@ -1097,6 +1140,33 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `username`, `password`
 (100, 'Jasmine', 'Hurst', 'ZJP51SVZ0LH', 'ZWU17KJS5VA', 'arcu.Curabitur@adipiscingMaurismolestie.org', 1, '1-354-837-1826'),
 (124, 'NULL', 'NULL', 'pjouto', 'blahblah', NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `answersperdate`
+--
+DROP TABLE IF EXISTS `answersperdate`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `answersperdate`  AS SELECT count(distinct `a`.`answer_id`) AS `answers`, `a`.`user_id` AS `user_id`, cast(`a`.`timestamp` as date) AS `date` FROM (`answer` `a` join `user` `u`) GROUP BY `a`.`user_id`, cast(`a`.`timestamp` as date) ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `contributions`
+--
+DROP TABLE IF EXISTS `contributions`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contributions`  AS SELECT ifnull(`t1`.`date`,`t2`.`date`) AS `date`, ifnull(`t1`.`user_id`,`t2`.`user_id`) AS `user`, ifnull(`t1`.`questions`,0) AS `questions`, ifnull(`t2`.`answers`,0) AS `answers` FROM (`questionsperdate` `t1` left join `answersperdate` `t2` on(`t1`.`user_id` = `t2`.`user_id` and `t1`.`date` = `t2`.`date`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Δομή για προβολή `questionsperdate`
+--
+DROP TABLE IF EXISTS `questionsperdate`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `questionsperdate`  AS SELECT count(distinct `q`.`question_id`) AS `questions`, `q`.`user_id` AS `user_id`, cast(`q`.`timestamp` as date) AS `date` FROM (`question` `q` join `user` `u`) GROUP BY `q`.`user_id`, cast(`q`.`timestamp` as date) ;
+
 --
 -- Ευρετήρια για άχρηστους πίνακες
 --
@@ -1144,19 +1214,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT για πίνακα `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answer_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `answer_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
 
 --
 -- AUTO_INCREMENT για πίνακα `keyword`
 --
 ALTER TABLE `keyword`
-  MODIFY `keyword_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
+  MODIFY `keyword_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
 
 --
 -- AUTO_INCREMENT για πίνακα `question`
 --
 ALTER TABLE `question`
-  MODIFY `question_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `question_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT για πίνακα `user`
