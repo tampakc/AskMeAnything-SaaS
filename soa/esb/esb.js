@@ -4,17 +4,16 @@ require("dotenv").config();
 
 const serviceport = process.env.serviceport || 4505;
 
-const esb = "localhost:" + esbport;
-const datalayer = "localhost:" + dataport;
-
 let routing = {};
 
 const app = express();
 app.use(express.json());
 
 app.post("/register", (req, res) => {
+  console.log(req.body);
   if ((req.body.type = "RegisterService")) {
-    if (req.body.provides == undefined) {
+    console.log(req.body);
+    if (!req.body.provides) {
       res.status(200).send();
       return;
     }
@@ -23,13 +22,14 @@ app.post("/register", (req, res) => {
       "ESB: Service " + req.body.provides + " registered at " + req.body.at
     );
     res.status(200).send();
+    console.log(routing);
     return;
   }
 });
 
 app.post("/event", (req, res) => {
   const target = routing[req.body.type];
-  if (target == undefinded) {
+  if (!target) {
     res
       .status(500)
       .send(
@@ -39,7 +39,8 @@ app.post("/event", (req, res) => {
     return;
   }
   axios.post(target, req.body).then((response) => {
-    res.status(response.status).send(response.body);
+    console.log(response.data);
+    res.status(response.status).send(response.data);
   });
 });
 

@@ -6,8 +6,8 @@ const dataport = process.env.dataport || 4500;
 const serviceport = process.env.serviceport || 4501;
 const esbport = process.env.esbport || 4505;
 
-const esb = "localhost:" + esbport;
-const datalayer = "localhost:" + dataport;
+const esb = "http://localhost:" + esbport;
+const datalayer = "http://localhost:" + dataport;
 
 const app = express();
 app.use(express.json());
@@ -54,7 +54,9 @@ app.post("/post/answer", (req, response) => {
 
 app.listen(serviceport, () => {
   console.log("Answer service listening on port " + serviceport + "...");
+  console.log("Sending req" + esb);
   axios.post(esb + "/register", {
     type: "RegisterService",
   });
+  console.log("Sent req");
 });
