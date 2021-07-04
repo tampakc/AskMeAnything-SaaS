@@ -1,0 +1,106 @@
+.form-label {
+  float: left;
+  margin-top: -70px;
+  color: #f2f2f2;
+  position: absolute;
+  text-align: center;
+  top: 180px;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.search-bar {
+  display: block;
+  position: absolute;
+  border: none;
+  text-align: center;
+  border-radius: 4px;
+  margin-top: 50px;
+  top: 250px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  height: 50px;
+  width: 40%;
+  min-width: 300px;
+  font-size: 17px;
+}
+
+.submit-btn {
+  display: block;
+  position: absolute;
+  top: 380px;
+  height: 35px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 10%;
+  min-width: 100px;
+  color: #1e1e23;
+  border: transparent;
+  border-radius: 4px;
+  background-color: #78f3ba;
+}
+
+.submit-btn:hover {
+  cursor: pointer;
+  background-color: #65ce9d;
+}
+
+.circle2 {
+  border-radius: 100px;
+  background-color: #292930;
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  margin-left: 40%;
+  margin-top: 200px;
+  transform: translate(-50%, 0%);
+}
+
+.circle2:hover {
+  box-shadow: 0 0 0 3pt #7fc2a3;
+  transition: ease-in 0.2s;
+}
+
+.text-data {
+  text-align: center;
+  color: #f2f2f2;
+}
+
+.text-data2 {
+  text-align: center;
+  margin-top: 55px;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #78f3ba;
+  font-weight: 700;
+}
+
+.show-btn-2 {
+  width: 20%;
+  min-width: 200px;
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: transparent;
+  background-color: #477e64;
+  margin-left: 50%;
+  transform: translate(-50%, 0%);
+  text-transform: uppercase;
+  color: white;
+}
+
+.show-btn-2:hover {
+  background-color: #65ce9d;
+  cursor: pointer;
+}
+
+/*      <div className="circle2">
+        <div className="text-data2">X</div>
+        <div className="text-data">contributions</div>
+      </div>
+
+      <div className="circle2" style={{ marginLeft: "40px" }}>
+        <div className="text-data2">X</div>
+        <div className="text-data">contributions</div>
+      </div>
+*/

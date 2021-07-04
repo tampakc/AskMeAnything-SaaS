@@ -1,0 +1,88 @@
+.login-wrapper {
+  float: left;
+  position: absolute;
+  left: 25%;
+}
+
+.login-font {
+  float: left;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  min-width: 300px;
+}
+
+.credentials-font {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #f2f2f2;
+  font-size: 14px;
+}
+
+.input-bar {
+  position: relative;
+  border: none;
+  text-align: center;
+  border-radius: 4px;
+  height: 50px;
+  width: 300px;
+  font-size: 17px;
+}
+
+.vl {
+  border-left: 2px solid #78f3ba;
+  border-right: 2px solid #78f3ba;
+  height: 300px;
+  margin-left: 350px;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.login-btn {
+  text-transform: uppercase;
+  font-weight: bold;
+  display: block;
+  position: absolute;
+  top: 370px;
+  height: 50px;
+  width: 305px;
+  min-width: 100px;
+  color: white;
+  border: transparent;
+  border-radius: 4px;
+  background-color: #477e64;
+}
+
+.login-btn:hover {
+  cursor: pointer;
+  background-color: #65ce9d;
+}
+
+.signup-redirect {
+  position: absolute;
+  margin-left: 420px;
+  top: 200px;
+}
+
+.signup-btn {
+  text-transform: uppercase;
+  font-weight: bold;
+  display: block;
+  position: relative;
+  margin-left: -20px;
+  margin-top: 54px;
+  height: 52.5px;
+  width: 305px;
+  min-width: 100px;
+  color: #1e1e23;
+  border: transparent;
+  border-radius: 4px;
+  background-color: #50505e;
+  color: #f2f2f2;
+}
+
+.signup-btn:hover {
+  cursor: pointer;
+  background-color: #464654;
+}
