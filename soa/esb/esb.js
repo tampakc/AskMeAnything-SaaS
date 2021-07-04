@@ -15,12 +15,12 @@ app.post("/register", (req, res) => {
       res.status(200).send();
       return;
     }
+
     routing[req.body.provides] = req.body.at;
     console.log(
       "ESB: Service " + req.body.provides + " registered at " + req.body.at
     );
     res.status(200).send();
-    return;
   }
 });
 
