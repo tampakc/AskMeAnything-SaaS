@@ -27,46 +27,6 @@ app.post("/event", (req, res) => {
   }
 });
 
-app.post("/post/answer", (req, response) => {
-  const question_id = req.body.question_id;
-  const answer = req.body.answer;
-  const time = req.body.timestamp;
-  const authHeader =
-    req.headers["x-observatory-auth"] || req.headers["authorization"];
-
-  axios
-    .post(esb + "/event", {
-      type: "AuthenticationNeeded",
-      data: {
-        token: authHeader,
-      },
-    })
-    .then((res) => {
-      if (res.status == 500) {
-        response.status(500).send("Could not reach services");
-        return;
-      }
-      if (res.status == 401) {
-        response.status(401).send("Bad login/Not logged in");
-        return;
-      }
-      const user_id = res.body.user_id;
-
-      axios
-        .post(datalayer + "/answer", {
-          question_id,
-          answer,
-          time,
-          user_id,
-        })
-        .then((res) => {
-          const status = res.status;
-          const body = res.data;
-          response.status(status).send(body);
-        });
-    });
-});
-
 app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
