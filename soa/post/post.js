@@ -20,12 +20,16 @@ app.post("/post/answer", (req, response) => {
     req.headers["x-observatory-auth"] || req.headers["Authorization"];
 
   axios
-    .post(esb + "/event", {
-      type: "AuthenticationNeeded",
-      data: {
-        token: authHeader,
+    .post(
+      esb + "/event",
+      {
+        type: "AuthenticationNeeded",
+        data: {
+          token: authHeader,
+        },
       },
-    })
+      { validateStatus: false }
+    )
     .then((res) => {
       if (res.status == 500) {
         response.status(500).send("Could not reach services");
@@ -38,12 +42,66 @@ app.post("/post/answer", (req, response) => {
       const user_id = res.data.user_id;
 
       axios
-        .post(datalayer + "/answer", {
-          question_id,
-          answer,
-          time,
-          user_id,
-        })
+        .post(
+          datalayer + "/answer",
+          {
+            question_id,
+            answer,
+            time,
+            user_id,
+          },
+          { validateStatus: false }
+        )
+        .then((res) => {
+          const status = res.status;
+          const body = res.data;
+          response.status(status).send(body);
+        });
+    });
+});
+
+app.post("/post/question", (req, response) => {
+  const question = req.body.question;
+  const title = req.body.title;
+  const keywords = req.body.keywords;
+  const time = req.body.timestamp;
+  const authHeader =
+    req.headers["x-observatory-auth"] || req.headers["authorization"];
+
+  axios
+    .post(
+      esb + "/event",
+      {
+        type: "AuthenticationNeeded",
+        data: {
+          token: authHeader,
+        },
+      },
+      { validateStatus: false }
+    )
+    .then((res) => {
+      if (res.status == 500) {
+        response.status(500).send("Could not reach services");
+        return;
+      }
+      if (res.status == 401) {
+        response.status(401).send("Bad login/Not logged in");
+        return;
+      }
+      const user_id = res.data.user_id;
+
+      axios
+        .post(
+          datalayer + "/question",
+          {
+            question,
+            title,
+            time,
+            user_id,
+            keywords,
+          },
+          { validateStatus: false }
+        )
         .then((res) => {
           const status = res.status;
           const body = res.data;
