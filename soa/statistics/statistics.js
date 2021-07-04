@@ -3,7 +3,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 const dataport = process.env.dataport || 4500;
-const serviceport = process.env.serviceport || 4501;
+const serviceport = process.env.serviceport || 4503;
 const esbport = process.env.esbport || 4505;
 
 const esb = "http://localhost:" + esbport;
@@ -12,7 +12,7 @@ const datalayer = "http://localhost:" + dataport;
 const app = express();
 app.use(express.json());
 
-app.get("/statistics/question/bydate", (response) => {
+app.get("/statistics/question/bydate", (req, response) => {
   axios
     .get(datalayer + "/statistics/question/bydate", { validateStatus: false })
     .then((res) => {
@@ -23,7 +23,7 @@ app.get("/statistics/question/bydate", (response) => {
     });
 });
 
-app.get("/statistics/keyword", (response) => {
+app.get("/statistics/keyword", (req, response) => {
   axios
     .get(datalayer + "/statistics/keyword/byquestion", {
       validateStatus: false,
@@ -79,7 +79,7 @@ app.get("/statistics/user", (req, response) => {
 });
 
 app.listen(serviceport, () => {
-  console.log("Answer service listening on port " + serviceport + "...");
+  console.log("Statistics service listening on port " + serviceport + "...");
   axios.post(esb + "/register", {
     type: "RegisterService",
   });

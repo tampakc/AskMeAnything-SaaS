@@ -39,7 +39,7 @@ app.get("/user/:username", (req, res) => {
 app.post("/answer", (req, res) => {
   const question_id = req.body.question_id;
   const answer = req.body.answer;
-  const time = req.body.time;
+  const time = req.body.timestamp;
   const user_id = req.body.user_id;
 
   con.query(
@@ -62,6 +62,7 @@ app.post("/question", (req, res) => {
   const user_id = req.body.user_id;
   let keywords = req.body.keywords;
   const time = req.body.timestamp;
+  console.log(req.body);
 
   con.beginTransaction((err) => {
     if (err) {
@@ -78,6 +79,7 @@ app.post("/question", (req, res) => {
       [user_id, title, question, time],
       (err, result, fields) => {
         if (err) {
+          console.log(err);
           res.status(500).send("Database error");
           con.rollback((err) => {});
           return;
@@ -315,14 +317,30 @@ app.get("/query/question/:questionid", (req, res) => {
   );
 });
 
+app.get("/query/question/all/titles", (req, res) => {
+  con.query(
+    "SELECT q.title, u.username, q.question_id, u.user_id  FROM question q INNER JOIN user u ON u.user_id = q.user_id",
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database error");
+        return;
+      }
+      //console.log(result);
+      if (result.length == 0) {
+        res.status(404).send();
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
 app.get("/query/question/all", (req, res) => {
-  const user_id = req.params.userid;
   const questions = [];
   const qids = [];
 
   con.query(
     "SELECT q.*, u.username FROM question q INNER JOIN user u ON u.user_id = q.user_id",
-    [user_id],
     (err, result, fields) => {
       if (err) throw err;
       //console.log(result);

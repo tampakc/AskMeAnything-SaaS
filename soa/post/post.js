@@ -15,7 +15,7 @@ app.use(express.json());
 app.post("/post/answer", (req, response) => {
   const question_id = req.body.question_id;
   const answer = req.body.answer;
-  const time = req.body.timestamp;
+  const timestamp = req.body.timestamp;
   const authHeader =
     req.headers["x-observatory-auth"] ||
     req.headers["Authorization"] ||
@@ -49,7 +49,7 @@ app.post("/post/answer", (req, response) => {
           {
             question_id,
             answer,
-            time,
+            timestamp,
             user_id,
           },
           { validateStatus: false }
@@ -67,9 +67,11 @@ app.post("/post/question", (req, response) => {
   const question = req.body.question;
   const title = req.body.title;
   const keywords = req.body.keywords;
-  const time = req.body.timestamp;
+  const timestamp = req.body.timestamp;
   const authHeader =
-    req.headers["x-observatory-auth"] || req.headers["authorization"];
+    req.headers["x-observatory-auth"] ||
+    req.headers["authorization"] ||
+    req.headers["Authorization"];
 
   axios
     .post(
@@ -99,7 +101,7 @@ app.post("/post/question", (req, response) => {
           {
             question,
             title,
-            time,
+            timestamp,
             user_id,
             keywords,
           },
@@ -114,7 +116,7 @@ app.post("/post/question", (req, response) => {
 });
 
 app.listen(serviceport, () => {
-  console.log("Answer service listening on port " + serviceport + "...");
+  console.log("Posting service listening on port " + serviceport + "...");
   axios.post(esb + "/register", {
     type: "RegisterService",
   });
