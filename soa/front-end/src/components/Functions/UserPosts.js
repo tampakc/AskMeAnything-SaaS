@@ -18,7 +18,7 @@ const UserPosts = ({ posts }) => {
   });
 
   if (renderedPosts.length === 0) {
-    renderedPosts = <span className="centered-fonts">You have no Posts</span>;
+    renderedPosts = <span className="centered-font">You have no Posts</span>;
   }
 
   return (

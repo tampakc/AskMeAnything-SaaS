@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
 require("dotenv").config();
@@ -7,6 +8,7 @@ const serviceport = process.env.serviceport || 4500;
 const dbport = process.env.dbport || 3306;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const con = mysql.createConnection({
@@ -51,7 +53,7 @@ app.post("/user/signup", (req, res) => {
   );
 });
 
-app.post("/answer", (req, res) => {
+app.post("/post/answer", (req, res) => {
   const question_id = req.body.question_id;
   const answer = req.body.answer;
   const time = req.body.timestamp;
@@ -71,7 +73,7 @@ app.post("/answer", (req, res) => {
   );
 });
 
-app.post("/question", (req, res) => {
+app.post("/post/question", (req, res) => {
   const question = req.body.question;
   const title = req.body.title;
   const user_id = req.body.user_id;

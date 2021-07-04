@@ -20,3 +20,8 @@
   font-weight: 400;
   color: rgb(255, 101, 96);
 }
+
+.signup-btn-2:hover {
+  cursor: pointer;
+  background-color: #3f3f4b;
+}

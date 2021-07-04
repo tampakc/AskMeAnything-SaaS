@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -10,6 +11,7 @@ const esb = "http://localhost:" + esbport;
 const datalayer = "http://localhost:" + dataport;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 //request to get all questions
@@ -64,6 +66,7 @@ app.get("/query/dashboard/user", (req, response) => {
     req.headers["x-observatory-auth"] ||
     req.headers["Authorization"] ||
     req.headers["authorization"];
+  console.log("Dashboard token:" + authHeader);
 
   axios
     .post(

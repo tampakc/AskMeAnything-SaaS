@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -10,6 +11,7 @@ const esb = "http://localhost:" + esbport;
 const datalayer = "http://localhost:" + dataport;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get("/statistics/question/bydate", (req, response) => {
@@ -42,6 +44,7 @@ app.get("/statistics/user", (req, response) => {
     req.headers["x-observatory-auth"] ||
     req.headers["Authorization"] ||
     req.headers["authorization"];
+  console.log("Contributions token:" + authHeader);
 
   axios
     .post(

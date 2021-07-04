@@ -29,7 +29,7 @@ const Dashboard = ({ token, username }) => {
           "http://localhost:4503/statistics/user",
           options
         );
-        setContributions(cont);
+        setContributions(cont.data);
         setLoading(false);
       };
       fetchData();
@@ -55,7 +55,7 @@ const Dashboard = ({ token, username }) => {
 
         <UserPosts posts={data.questions} />
         <UserAnswers answers={data.answers} />
-        <UserContributions contribs={contributions.contributions} />
+        <UserContributions contributions={contributions} />
       </div>
     );
   } else {

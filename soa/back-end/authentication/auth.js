@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -13,6 +14,7 @@ const esb = "http://localhost:" + esbport;
 const datalayer = "http://localhost:" + dataport;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.post("/event", (req, res) => {
@@ -21,6 +23,8 @@ app.post("/event", (req, res) => {
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
         res.status(401).send("Token is invalid");
+        console.log(err);
+        console.log(token);
       }
       res.status(200).send(decoded);
     });
@@ -42,7 +46,7 @@ app.post("/login", (req, res) => {
       } else if (response.status == 200 && password == response.data.password) {
         const head = { username, user_id: response.data.user_id };
         const token = jwt.sign(head, key);
-        res.status(200).send(token);
+        res.status(200).send({ token });
       } else res.status(500).send();
     });
 });
@@ -53,10 +57,11 @@ app.post("/signup", (req, res) => {
   axios
     .get(datalayer + "/user/" + details.username, { validateStatus: false })
     .then((response) => {
+      console.log(response.data);
       if (response.data.user_id) {
         res
           .status(400)
-          .send("User with username " + detauls.username + " already exists");
+          .send("User with username " + details.username + " already exists");
         return;
       }
       axios
@@ -73,7 +78,6 @@ app.post("/signup", (req, res) => {
             res.status(200).send("User has been created");
             return;
           }
-          console.log("HI");
           res.status(500).send();
         });
     });

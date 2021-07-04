@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -7,6 +8,7 @@ const serviceport = process.env.serviceport || 4505;
 let routing = {};
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.post("/register", (req, res) => {

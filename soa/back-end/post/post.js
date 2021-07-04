@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -10,6 +11,7 @@ const esb = "http://localhost:" + esbport;
 const datalayer = "http://localhost:" + dataport;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 //request for posting answer to a question
@@ -113,6 +115,7 @@ app.post("/post/question", (req, response) => {
           const status = res.status;
           const body = res.data;
 
+          console.log("Error?: " + status);
           response.status(status).send(body);
         });
     });
