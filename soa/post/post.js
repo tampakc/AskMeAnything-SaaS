@@ -17,7 +17,9 @@ app.post("/post/answer", (req, response) => {
   const answer = req.body.answer;
   const time = req.body.timestamp;
   const authHeader =
-    req.headers["x-observatory-auth"] || req.headers["Authorization"];
+    req.headers["x-observatory-auth"] ||
+    req.headers["Authorization"] ||
+    req.headers["authorization"];
 
   axios
     .post(
@@ -55,6 +57,7 @@ app.post("/post/answer", (req, response) => {
         .then((res) => {
           const status = res.status;
           const body = res.data;
+          console.log(body);
           response.status(status).send(body);
         });
     });

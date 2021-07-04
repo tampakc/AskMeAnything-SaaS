@@ -33,41 +33,49 @@ app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  axios.get(datalayer + "/user/" + username).then((response) => {
-    if (response.status == 401) {
-      res.status(401).send("Incorrect username or password");
-      return;
-    } else if (response.status == 200) {
-      const head = { username, user_id: response.data.user_id };
-      const token = jwt.sign(head, key);
-      res.status(200).send(token);
-    } else res.status(500).send();
-  });
+  axios
+    .get(datalayer + "/user/" + username, { validateStatus: false })
+    .then((response) => {
+      if (response.status == 401) {
+        res.status(401).send("Incorrect username or password");
+        return;
+      } else if (response.status == 200) {
+        const head = { username, user_id: response.data.user_id };
+        const token = jwt.sign(head, key);
+        res.status(200).send(token);
+      } else res.status(500).send();
+    });
 });
 
 app.post("/signup", (req, res) => {
   const details = req.body;
 
-  axios.get(datalayer + "/user/" + details.username).then((response) => {
-    if (response.data.user_id) {
-      res
-        .status(400)
-        .send("User with username " + detauls.username + " already exists");
-      return;
-    }
-    axios
-      .post(datalayer + "/user/signup", {
-        username: details.username,
-        password: details.password,
-      })
-      .then((response) => {
-        if (response.status == 200) {
-          res.status(200).send("User has been created");
-          return;
-        }
-        res.status(500).send();
-      });
-  });
+  axios
+    .get(datalayer + "/user/" + details.username, { validateStatus: false })
+    .then((response) => {
+      if (response.data.user_id) {
+        res
+          .status(400)
+          .send("User with username " + detauls.username + " already exists");
+        return;
+      }
+      axios
+        .post(
+          datalayer + "/user/signup",
+          {
+            username: details.username,
+            password: details.password,
+          },
+          { validateStatus: false }
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            res.status(200).send("User has been created");
+            return;
+          }
+          res.status(500).send();
+        });
+    });
 });
 
 app.listen(serviceport, () => {

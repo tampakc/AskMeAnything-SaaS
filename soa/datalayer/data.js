@@ -47,10 +47,11 @@ app.post("/answer", (req, res) => {
     [user_id, question_id, answer, time],
     (err, result, fields) => {
       if (err) {
+        console.log(err);
         res.status(500).send("Database error");
         return;
       }
-      res.status(200).send(result.insertId.toString());
+      res.status(200).send("Answer posted successfully!");
     }
   );
 });

@@ -35,8 +35,7 @@ app.post("/event", (req, res) => {
       );
     return;
   }
-  axios.post(target, req.body).then((response) => {
-    console.log(response.data);
+  axios.post(target, req.body, { validateStatus: false }).then((response) => {
     res.status(response.status).send(response.data);
   });
 });
