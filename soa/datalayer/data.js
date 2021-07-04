@@ -36,6 +36,21 @@ app.get("/user/:username", (req, res) => {
   );
 });
 
+app.post("/user/signup", (req, res) => {
+  con.query(
+    "INSERT INTO user(username, password) VALUES (?, ?)",
+    [req.body.username, req.body.password],
+    (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Database error");
+      } else {
+        res.status(200).send("User has been created");
+      }
+    }
+  );
+});
+
 app.post("/answer", (req, res) => {
   const question_id = req.body.question_id;
   const answer = req.body.answer;
@@ -169,7 +184,7 @@ app.get("/statistics/user/:user_id", (req, res) => {
   );
 });
 
-app.get("/query/user/:user_id", (req, res) => {
+app.get("/query/dashboard/user/:user_id", (req, res) => {
   const user_id = req.params.user_id;
   let reply = { questions: [], answers: [] };
   let counter = 2;

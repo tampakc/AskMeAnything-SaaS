@@ -3,7 +3,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 const dataport = process.env.dataport || 4500;
-const serviceport = process.env.serviceport || 4501;
+const serviceport = process.env.serviceport || 4504;
 const esbport = process.env.esbport || 4505;
 
 const esb = "http://localhost:" + esbport;
@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 //request to get all questions
-app.get("/query/question/all/titles", (response) => {
+app.get("/query/question/all/titles", (req, response) => {
   axios
     .get(datalayer + "/query/question/all/titles", {
       validateStatus: false,
@@ -89,7 +89,7 @@ app.get("/query/dashboard/user", (req, response) => {
       const user_id = res.data.user_id;
 
       axios
-        .get(datalayer + "/query/dashboard/user" + user_id, {
+        .get(datalayer + "/query/dashboard/user/" + user_id, {
           validateStatus: false,
         })
         .then((res) => {

@@ -39,7 +39,7 @@ app.post("/login", (req, res) => {
       if (response.status == 401) {
         res.status(401).send("Incorrect username or password");
         return;
-      } else if (response.status == 200) {
+      } else if (response.status == 200 && password == response.data.password) {
         const head = { username, user_id: response.data.user_id };
         const token = jwt.sign(head, key);
         res.status(200).send(token);
@@ -73,6 +73,7 @@ app.post("/signup", (req, res) => {
             res.status(200).send("User has been created");
             return;
           }
+          console.log("HI");
           res.status(500).send();
         });
     });
