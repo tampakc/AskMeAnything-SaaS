@@ -12,6 +12,7 @@ const datalayer = "http://localhost:" + dataport;
 const app = express();
 app.use(express.json());
 
+//request for posting answer to a question
 app.post("/post/answer", (req, response) => {
   const question_id = req.body.question_id;
   const answer = req.body.answer;
@@ -45,7 +46,7 @@ app.post("/post/answer", (req, response) => {
 
       axios
         .post(
-          datalayer + "/answer",
+          datalayer + "/post/answer",
           {
             question_id,
             answer,
@@ -57,12 +58,13 @@ app.post("/post/answer", (req, response) => {
         .then((res) => {
           const status = res.status;
           const body = res.data;
-          console.log(body);
+
           response.status(status).send(body);
         });
     });
 });
 
+//request for posting a question
 app.post("/post/question", (req, response) => {
   const question = req.body.question;
   const title = req.body.title;
@@ -95,7 +97,7 @@ app.post("/post/question", (req, response) => {
 
       axios
         .post(
-          datalayer + "/question",
+          datalayer + "/post/question",
           {
             question,
             title,
@@ -108,13 +110,14 @@ app.post("/post/question", (req, response) => {
         .then((res) => {
           const status = res.status;
           const body = res.data;
+
           response.status(status).send(body);
         });
     });
 });
 
 app.listen(serviceport, () => {
-  console.log("Answer service listening on port " + serviceport + "...");
+  console.log("Posting service listening on port " + serviceport + "...");
   axios.post(esb + "/register", {
     type: "RegisterService",
   });
