@@ -35,7 +35,7 @@ app.post("/post/answer", (req, response) => {
         response.status(401).send("Bad login/Not logged in");
         return;
       }
-      const user_id = res.body.user_id;
+      const user_id = res.data.user_id;
 
       axios
         .post(datalayer + "/answer", {

@@ -17,14 +17,13 @@ const con = mysql.createConnection({
   port: dbport,
 });
 
-app.get("/user/:user_id", (req, res) => {
-  const user_id = req.params.user_id;
+app.get("/user/:username", (req, res) => {
+  const username = req.params.username;
 
   con.query(
     "SELECT username, password, user_id FROM user WHERE username = ?",
-    [user_id],
+    [username],
     (err, result, fields) => {
-      console.log(result);
       if (err) res.status(500).send("Trouble getting to the database");
       else if (result.length == 0) res.status(401).send();
       else
