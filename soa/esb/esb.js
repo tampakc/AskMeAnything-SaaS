@@ -10,9 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.post("/register", (req, res) => {
-  console.log(req.body);
   if ((req.body.type = "RegisterService")) {
-    console.log(req.body);
     if (!req.body.provides) {
       res.status(200).send();
       return;
@@ -22,7 +20,6 @@ app.post("/register", (req, res) => {
       "ESB: Service " + req.body.provides + " registered at " + req.body.at
     );
     res.status(200).send();
-    console.log(routing);
     return;
   }
 });

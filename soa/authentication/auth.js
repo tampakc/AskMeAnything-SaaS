@@ -19,7 +19,9 @@ app.post("/event", (req, res) => {
   if (req.body.type == "AuthenticationNeeded") {
     const token = req.body.data.token;
     jwt.verify(token, key, (err, decoded) => {
-      if (err) res.status(401).send("Token is invalid");
+      if (err) {
+        res.status(401).send("Token is invalid");
+      }
       res.status(200).send(decoded);
     });
   } else {

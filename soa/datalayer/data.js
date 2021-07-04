@@ -36,6 +36,25 @@ app.get("/user/:username", (req, res) => {
   );
 });
 
+app.post("/answer", (req, res) => {
+  const question_id = req.body.question_id;
+  const answer = req.body.answer;
+  const time = req.body.time;
+  const user_id = req.body.user_id;
+
+  con.query(
+    "INSERT INTO answer(user_id, question_id, body, timestamp) VALUES (?, ?, ?, ?)",
+    [user_id, question_id, answer, time],
+    (err, result, fields) => {
+      if (err) {
+        res.status(500).send("Database error");
+        return;
+      }
+      res.status(200).send(result.insertId.toString());
+    }
+  );
+});
+
 app.listen(serviceport, () => {
   console.log("Data Layer listening on port " + serviceport + "...");
 });

@@ -17,7 +17,7 @@ app.post("/post/answer", (req, response) => {
   const answer = req.body.answer;
   const time = req.body.timestamp;
   const authHeader =
-    req.headers["x-observatory-auth"] || req.headers["authorization"];
+    req.headers["x-observatory-auth"] || req.headers["Authorization"];
 
   axios
     .post(esb + "/event", {
@@ -54,9 +54,7 @@ app.post("/post/answer", (req, response) => {
 
 app.listen(serviceport, () => {
   console.log("Answer service listening on port " + serviceport + "...");
-  console.log("Sending req" + esb);
   axios.post(esb + "/register", {
     type: "RegisterService",
   });
-  console.log("Sent req");
 });
