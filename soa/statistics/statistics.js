@@ -62,8 +62,13 @@ app.get("/statistics/user", (req, response) => {
         response.status(401).send("Bad login/Not logged in");
         return;
       }
+
+      const user_id = res.data.user_id;
+
       axios
-        .get(datalayer + "/statistics/user", { validateStatus: false })
+        .get(datalayer + "/statistics/user/" + user_id, {
+          validateStatus: false,
+        })
         .then((res) => {
           const status = res.status;
           const body = res.data;
