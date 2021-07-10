@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
 require("dotenv").config();
-const { authenticateToken } = require("../Auth/Authenticate");
+const { authenticateToken } = require("./Authenticate");
 
 const dbport = process.env.dbport || 3306;
 const eventport = process.env.eventport || 4005;

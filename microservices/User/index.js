@@ -4,7 +4,7 @@ const mysql = require("mysql");
 const fs = require("fs");
 const Joi = require("joi");
 require("dotenv").config();
-const { createKey } = require("../Auth/Authenticate");
+const { createKey } = require("./Authenticate");
 const { default: axios } = require("axios");
 
 const dbport = process.env.dbport || 3306;

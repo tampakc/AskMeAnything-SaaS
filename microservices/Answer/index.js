@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
-require('dotenv').config();
-const { authenticateToken } = require("../Auth/Authenticate");
+require("dotenv").config();
+const { authenticateToken } = require("./Authenticate");
 
 const dbport = process.env.dbport || 3306;
 const serviceport = process.env.serviceport || 4002;

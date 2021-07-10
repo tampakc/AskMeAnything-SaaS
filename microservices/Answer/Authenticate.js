@@ -1,20 +1,11 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-function authRole(is_admin) {
-  return (req, res, next) => {
-    if (req.user.is_admin !== is_admin) {
-      res.status(401);
-      return res.send("Unauthorized for that section");
-    }
-
-    next();
-  };
-}
-
 function authenticateToken(req, res, next) {
   const authHeader =
-    req.headers["x-observatory-auth"] || req.headers["authorization"];
+    req.headers["x-observatory-auth"] ||
+    req.headers["authorization"] ||
+    req.headers["Authorization"];
   let token = authHeader;
   if (!authHeader) return res.status(401).send("token required");
 
@@ -43,7 +34,6 @@ function createKey(head) {
 }
 
 module.exports = {
-  authRole,
   authenticateToken,
   createKey,
 };
