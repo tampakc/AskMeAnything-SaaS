@@ -14,15 +14,21 @@ const Signup = ({ token }) => {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      if (password === retype) {
-        await axios.post("http://localhost:4000/signup", {
-          username,
-          password,
-        });
+      if (password === retype && password) {
+        const response = await axios.post(
+          "http://localhost:4502/signup",
+          {
+            username,
+            password,
+          },
+          { validateStatus: false }
+        );
 
+        alert(response.data);
         setUsername("");
         setPassword("");
         setRetype("");
+        window.location.reload();
       }
     };
 
