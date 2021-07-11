@@ -15,18 +15,18 @@ const eventaddr = process.env.eventaddr || "http://localhost:";
 const eventport = process.env.eventport || 4005;
 const serviceport = process.env.PORT || 4001;
 
-const eventservice = eventaddr + eventport + "/events";
+const eventservice = eventaddr + "/events";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: dbhost,
-  user: dbuser,
-  password: dbpass,
-  database: dbname,
-  port: dbport,
+  host: "eu-cdbr-west-01.cleardb.com",
+  user: "b92b56b4e8fe42",
+  password: "ea8edd2f",
+  database: "heroku_bab82586a1635df",
+  //port: dbport,
 });
 
 app.get("/question/:id", async (req, res) => {});

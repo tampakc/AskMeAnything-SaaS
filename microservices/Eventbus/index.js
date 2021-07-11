@@ -12,15 +12,15 @@ const serviceport = process.env.PORT || 4005;
 const p2 = "/events";
 
 const questionurl = process.env.questionurl || "http://localhost:";
-const question = questionurl + (process.env.questionport || 4001) + p2;
+const question = questionurl + p2; //(process.env.questionport || 4001) + p2;
 const keywordurl = process.env.keywordurl || "http://localhost:";
-const keyword = keywordurl + (process.env.keywordport || 4003) + p2;
+const keyword = keywordurl + p2; //(process.env.keywordport || 4003) + p2;
 const answerurl = process.env.keywordurl || "http://localhost:";
-const answer = answerurl + (process.env.answerport || 4002) + p2;
+const answer = answerurl + p2; //(process.env.answerport || 4002) + p2;
 const userurl = process.env.userurl || "http://localhost:";
-const user = userurl + (process.env.userport || 4000) + p2;
+const user = userurl + p2; //(process.env.userport || 4000) + p2;
 const queryurl = process.env.queryurl || "http://localhost:";
-const query = queryurl + (process.env.queryport || 4004) + p2;
+const query = queryurl + p2; //(process.env.queryport || 4004) + p2;
 
 const routing = {
   QuestionPosted: [query],

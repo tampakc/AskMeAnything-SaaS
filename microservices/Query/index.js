@@ -22,11 +22,11 @@ app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: dbhost,
-  user: dbuser,
-  password: dbpass,
-  database: dbname,
-  port: dbport,
+  host: "eu-cdbr-west-01.cleardb.com",
+  user: "bf09c3ec1cf783",
+  password: "88274128",
+  database: "heroku_4ec1f611eb28888",
+  //port: dbport,
 });
 
 app.get("/query/question/all", (req, res) => {

@@ -17,7 +17,7 @@ const eventaddr = process.env.eventaddr || "http://localhost:";
 const eventport = process.env.eventport || 4005;
 const serviceport = process.env.PORT || 4000;
 
-const eventservice = eventaddr + eventport + "/events";
+const eventservice = eventaddr + "/events";
 
 const schema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -56,10 +56,10 @@ app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: dbhost,
-  user: dbuser,
-  password: dbpass,
-  database: dbname,
+  host: "eu-cdbr-west-01.cleardb.com",
+  user: "be7946b0c3e21b",
+  password: "cbef59dc",
+  database: "heroku_22ae75f69d16369",
   port: dbport,
 });
 
