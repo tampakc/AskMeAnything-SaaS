@@ -18,7 +18,7 @@ const Home = () => {
   const [dataQuestions, setDataQuestions] = useState([]);
 
   const queryURL = process.env.REACT_APP_QueryService;
-  const keywordURL = process.env.KeywordService;
+  const keywordURL = process.env.REACT_APP_KeywordService;
 
   useEffect(() => {
     const fetchData = async () => {
