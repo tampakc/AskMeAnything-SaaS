@@ -4,11 +4,13 @@ import "../App/Style.css";
 import "./Login.css";
 import axios from "axios";
 
+require("dotenv").config();
+
 const Login = ({ token, tokenHandle }) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
-  const authURL = process.env.AuthenticationService;
+  const authURL = process.env.REACT_APP_AuthenticationService;
 
   if (!token) {
     const handleSubmit = async (e) => {

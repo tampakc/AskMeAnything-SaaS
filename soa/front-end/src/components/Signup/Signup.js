@@ -5,12 +5,14 @@ import axios from "axios";
 import "../App/Style.css";
 import "./Signup.css";
 
+require("dotenv").config();
+
 const Signup = ({ token }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [retype, setRetype] = useState();
 
-  const authURL = process.env.AuthenticationService;
+  const authURL = process.env.REACT_APP_AuthenticationService;
 
   if (!token) {
     const handleSubmit = async (e) => {

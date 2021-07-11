@@ -3,10 +3,12 @@ import axios from "axios";
 
 import "../Question/Question.css";
 
+require("dotenv").config();
+
 const AnswerField = ({ question_id }) => {
   const [answer, setAnswer] = useState("");
 
-  const answerURL = process.env.AnswerService;
+  const answerURL = process.env.REACT_APP_AnswerService;
 
   const handleSubmit = async (e) => {
     const timestamp = new Date();

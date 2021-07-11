@@ -6,12 +6,14 @@ import DisplayQuestion from "../Functions/DisplayQuestion.js";
 import DisplayAnswers from "../Functions/DisplayAnswers.js";
 import AnswerField from "../Functions/AnswerField.js";
 
+require("dotenv").config();
+
 export default function Question() {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const queryURL = process.env.QueryService;
+  const queryURL = process.env.REACT_APP_QueryService;
 
   useEffect(() => {
     const fetchData = async () => {

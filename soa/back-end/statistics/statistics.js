@@ -9,8 +9,8 @@ const serviceport = process.env.PORT || 4503;
 const esburl = process.env.esburl || "http://localhost:";
 const esbport = process.env.esbport || 4505;
 
-const esb = esburl + esbport;
-const datalayer = dataurl + dataport;
+const esb = esburl// + esbport;
+const datalayer = dataurl// + dataport;
 
 const app = express();
 app.use(cors());
@@ -87,7 +87,10 @@ app.get("/statistics/user", (req, response) => {
 
 app.listen(serviceport, () => {
   console.log("Statistics service listening on port " + serviceport + "...");
+  console.log(esb)
   axios.post(esb + "/register", {
     type: "RegisterService",
-  });
+  }).then((res)=>{
+    console.log(res.data)
+  }).catch((err) => {console.log(err)});
 });

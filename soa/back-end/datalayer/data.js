@@ -16,11 +16,11 @@ app.use(cors());
 app.use(express.json());
 
 const con = mysql.createConnection({
-  host: dbhost,
-  user: dbuser,
-  password: dbpass,
-  database: dbname,
-  port: dbport,
+  host: "eu-cdbr-west-01.cleardb.com",
+  user: "b648dbdff05a4d",
+  password: "577798c1",
+  database: "heroku_26677f4ba34621a",
+  //port: dbport,
 });
 
 app.get("/user/:username", (req, res) => {
@@ -160,6 +160,7 @@ app.get("/statistics/keyword/byquestion", (req, res) => {
     "SELECT k.word, COUNT(*) as questions FROM `keyword` k INNER JOIN hasword h ON k.keyword_id = h.keyword_id GROUP BY k.keyword_id ORDER BY COUNT(*) DESC",
     (err, result, fields) => {
       if (err) {
+        console.log(err);
         res.status(500).send("Database is down");
       } else {
         res.status(200).send(result);

@@ -8,13 +8,15 @@ import UserContributions from "../Functions/UserContributions";
 
 import "./Dashboard.css";
 
+require("dotenv").config();
+
 const Dashboard = ({ token, username }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [contributions, setContributions] = useState([]);
 
-  const queryURL = process.env.QueryService;
-  const statisticsURL = process.env.StatisticsService;
+  const queryURL = process.env.REACT_APP_QueryService;
+  const statisticsURL = process.env.REACT_APP_StatisticsService;
 
   useEffect(() => {
     if (token) {

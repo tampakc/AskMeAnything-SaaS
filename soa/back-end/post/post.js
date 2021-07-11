@@ -9,8 +9,8 @@ const serviceport = process.env.PORT || 4501;
 const esburl = process.env.esburl || "http://localhost:";
 const esbport = process.env.esbport || 4505;
 
-const esb = esburl + esbport;
-const datalayer = dataurl + dataport;
+const esb = esburl// + esbport;
+const datalayer = dataurl// + dataport;
 
 const app = express();
 app.use(cors());
