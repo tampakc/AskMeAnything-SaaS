@@ -15,21 +15,24 @@ const Home = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [dataQuestions, setDataQuestions] = useState([]);
 
+  const queryURL = process.env.QueryService;
+  const keywordURL = process.env.KeywordService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoadingKey(true);
-      let res = await axios.get("http://localhost:4003/keyword/byquestions");
+      let res = await axios.get(keywordURL + "/keyword/byquestions");
       setDataKey(res.data);
       setLoadingKey(false);
 
       setLoadingQuestions(true);
-      res = await axios.get("http://localhost:4004/query/question/bydate");
+      res = await axios.get(queryURL + "/query/question/bydate");
       setDataQuestions(res.data);
       setLoadingQuestions(false);
     };
 
     fetchData();
-  }, []);
+  }, [keywordURL, queryURL]);
 
   let renderedDataKey;
 

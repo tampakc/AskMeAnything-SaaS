@@ -13,17 +13,19 @@ const Keyword = () => {
   const [currentPage, setCurrentPage] = useState(page);
   const [questionsPerPage] = useState(10);
 
+  const queryURL = process.env.QueryService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(`http://localhost:4004/query/keyword/${tag}`);
+      const res = await axios.get(queryURL + `/query/keyword/${tag}`);
       console.log(res.data);
       setQuestions(res.data);
       setLoading(false);
     };
 
     fetchData();
-  }, [tag]);
+  }, [tag, queryURL]);
 
   const indexOfLastQ = currentPage * questionsPerPage;
   const indexOfFirstQ = indexOfLastQ - questionsPerPage;

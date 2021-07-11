@@ -17,6 +17,8 @@ import useToken from "./useToken";
 
 import "./App.css";
 
+require("dotenv").config();
+
 function App() {
   const { token, setToken } = useToken();
   const [username, setUsername] = useState("");

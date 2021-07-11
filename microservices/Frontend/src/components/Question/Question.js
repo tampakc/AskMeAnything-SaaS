@@ -11,16 +11,18 @@ export default function Question() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const queryURL = process.env.QueryService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(`http://localhost:4004/query/question/${id}`);
+      const res = await axios.get(queryURL + `/query/question/${id}`);
       setData(res.data);
       setLoading(false);
     };
 
     fetchData();
-  }, [id]);
+  }, [id, queryURL]);
 
   if (loading) {
     return <>Still loading...</>;

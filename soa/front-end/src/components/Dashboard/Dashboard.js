@@ -13,6 +13,9 @@ const Dashboard = ({ token, username }) => {
   const [data, setData] = useState([]);
   const [contributions, setContributions] = useState([]);
 
+  const queryURL = process.env.QueryService;
+  const statisticsURL = process.env.StatisticsService;
+
   useEffect(() => {
     if (token) {
       const fetchData = async () => {
@@ -21,12 +24,12 @@ const Dashboard = ({ token, username }) => {
         };
         setLoading(true);
         const res = await axios.get(
-          "http://localhost:4504/query/dashboard/user",
+          queryURL + "/query/dashboard/user",
           options
         );
         setData(res.data);
         const cont = await axios.get(
-          "http://localhost:4503/statistics/user",
+          statisticsURL + "/statistics/user",
           options
         );
         setContributions(cont.data);
@@ -34,7 +37,7 @@ const Dashboard = ({ token, username }) => {
       };
       fetchData();
     }
-  }, [token]);
+  }, [token, queryURL, statisticsURL]);
 
   if (token) {
     if (loading) {

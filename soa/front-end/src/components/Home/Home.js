@@ -15,21 +15,23 @@ const Home = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [dataQuestions, setDataQuestions] = useState([]);
 
+  const statisticsURL = process.env.StatisticsService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoadingKey(true);
-      let res = await axios.get("http://localhost:4503/statistics/keyword");
+      let res = await axios.get(statisticsURL + "/statistics/keyword");
       setDataKey(res.data);
       setLoadingKey(false);
 
       setLoadingQuestions(true);
-      res = await axios.get("http://localhost:4503/statistics/question/bydate");
+      res = await axios.get(statisticsURL + "/statistics/question/bydate");
       setDataQuestions(res.data);
       setLoadingQuestions(false);
     };
 
     fetchData();
-  }, []);
+  }, [statisticsURL]);
 
   let renderedDataKey;
 

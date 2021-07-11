@@ -12,6 +12,8 @@ const Dashboard = ({ token, username }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
+  const queryURL = process.env.QueryService;
+
   useEffect(() => {
     if (token) {
       const fetchData = async () => {
@@ -20,7 +22,7 @@ const Dashboard = ({ token, username }) => {
         };
         setLoading(true);
         const res = await axios.get(
-          "http://localhost:4004/query/dashboard/user",
+          queryURL + "/query/dashboard/user",
           options
         );
         setData(res.data);
@@ -28,8 +30,8 @@ const Dashboard = ({ token, username }) => {
       };
       fetchData();
     }
-  }, [token]);
-
+  }, [token, queryURL]);
+  
   if (token) {
     if (loading) {
       return <h2 className="normal-font">Still Loading...</h2>;

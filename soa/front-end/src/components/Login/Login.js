@@ -8,12 +8,14 @@ const Login = ({ token, tokenHandle }) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
+  const authURL = process.env.AuthenticationService;
+
   if (!token) {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
       await axios
-        .post("http://localhost:4502/login", {
+        .post(authURL + "/login", {
           username,
           password,
         })
