@@ -22,7 +22,7 @@ export default function Question() {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, queryURL]);
 
   if (loading) {
     return <>Still loading...</>;

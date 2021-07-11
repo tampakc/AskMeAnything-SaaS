@@ -30,8 +30,8 @@ const Dashboard = ({ token, username }) => {
       };
       fetchData();
     }
-  }, [token]);
-
+  }, [token, queryURL]);
+  
   if (token) {
     if (loading) {
       return <h2 className="normal-font">Still Loading...</h2>;

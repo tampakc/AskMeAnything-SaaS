@@ -15,9 +15,9 @@ import AllQuestions from "../AllQuestions/AllQuestions.js";
 
 import useToken from "./useToken";
 
-require("dotenv").config();
-
 import "./App.css";
+
+require("dotenv").config();
 
 function App() {
   const { token, setToken } = useToken();

@@ -31,7 +31,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, []);
+  }, [statisticsURL]);
 
   let renderedDataKey;
 

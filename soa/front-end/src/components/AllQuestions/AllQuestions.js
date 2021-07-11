@@ -24,7 +24,7 @@ const AllQuestions = () => {
     };
 
     fetchData();
-  }, []);
+  }, [queryURL]);
 
   const indexOfLastQ = currentPage * questionsPerPage;
   const indexOfFirstQ = indexOfLastQ - questionsPerPage;

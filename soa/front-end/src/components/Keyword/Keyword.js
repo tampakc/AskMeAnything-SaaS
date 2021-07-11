@@ -25,7 +25,7 @@ const Keyword = () => {
     };
 
     fetchData();
-  }, [tag]);
+  }, [tag, queryURL]);
 
   const indexOfLastQ = currentPage * questionsPerPage;
   const indexOfFirstQ = indexOfLastQ - questionsPerPage;

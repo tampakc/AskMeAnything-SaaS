@@ -37,7 +37,7 @@ const Dashboard = ({ token, username }) => {
       };
       fetchData();
     }
-  }, [token]);
+  }, [token, queryURL, statisticsURL]);
 
   if (token) {
     if (loading) {
