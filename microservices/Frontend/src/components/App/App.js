@@ -15,6 +15,8 @@ import AllQuestions from "../AllQuestions/AllQuestions.js";
 
 import useToken from "./useToken";
 
+require("dotenv").config();
+
 import "./App.css";
 
 function App() {

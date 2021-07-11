@@ -13,12 +13,12 @@ const AllQuestions = () => {
   const [currentPage, setCurrentPage] = useState(page);
   const [questionsPerPage] = useState(10);
 
+  const queryURL = process.env.QueryService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(
-        "http://localhost:4004/query/question/all/titles"
-      );
+      const res = await axios.get(queryURL + "/query/question/all/titles");
       setQuestions(res.data);
       setLoading(false);
     };

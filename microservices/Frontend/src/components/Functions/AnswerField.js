@@ -6,6 +6,8 @@ import "../Question/Question.css";
 const AnswerField = ({ question_id }) => {
   const [answer, setAnswer] = useState("");
 
+  const answerURL = process.env.AnswerService;
+
   const handleSubmit = async (e) => {
     const timestamp = new Date();
 
@@ -14,7 +16,7 @@ const AnswerField = ({ question_id }) => {
     };
 
     await axios.post(
-      "http://localhost:4002/answer",
+      answerURL + "/answer",
       {
         question_id,
         answer,

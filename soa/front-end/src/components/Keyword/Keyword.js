@@ -13,10 +13,12 @@ const Keyword = () => {
   const [currentPage, setCurrentPage] = useState(page);
   const [questionsPerPage] = useState(10);
 
+  const queryURL = process.env.QueryService;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(`http://localhost:4504/query/keyword/${tag}`);
+      const res = await axios.get(queryURL + `/query/keyword/${tag}`);
       console.log(res.data);
       setQuestions(res.data);
       setLoading(false);

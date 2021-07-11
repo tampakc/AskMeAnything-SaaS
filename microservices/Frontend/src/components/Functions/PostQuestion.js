@@ -7,6 +7,8 @@ const PostQuestion = ({ tags, setTags }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
+  const questionURL = process.env.QuestionService;
+
   const questionSubmit = async (e) => {
     e.preventDefault();
     let timestamp = new Date();
@@ -15,7 +17,7 @@ const PostQuestion = ({ tags, setTags }) => {
       headers: { authorization: localStorage.getItem("LoginToken") },
     };
     await axios.post(
-      "http://localhost:4001/question",
+      questionURL + "/question",
       {
         title,
         question: body,

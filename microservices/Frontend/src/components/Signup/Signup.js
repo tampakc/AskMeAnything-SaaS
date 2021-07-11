@@ -10,13 +10,15 @@ const Signup = ({ token }) => {
   const [password, setPassword] = useState();
   const [retype, setRetype] = useState();
 
+  const userURL = process.env.UserService;
+
   if (!token) {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
       if (password === retype && password) {
         const response = await axios.post(
-          "http://localhost:4502/signup",
+          userURL + "/signup",
           {
             username,
             password,
