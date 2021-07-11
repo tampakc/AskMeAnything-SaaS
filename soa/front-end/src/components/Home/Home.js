@@ -6,6 +6,8 @@ import axios from "axios";
 import "../App/Style.css";
 import "./Home.css";
 
+require("dotenv").config();
+
 const Home = () => {
   const [loadingKey, setLoadingKey] = useState(true);
   const [showKey, setShowKey] = useState(false);
@@ -15,7 +17,7 @@ const Home = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [dataQuestions, setDataQuestions] = useState([]);
 
-  const statisticsURL = process.env.StatisticsService;
+  const statisticsURL = process.env.REACT_APP_StatisticsService;
 
   useEffect(() => {
     const fetchData = async () => {

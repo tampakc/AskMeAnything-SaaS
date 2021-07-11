@@ -15,6 +15,7 @@ app.post("/register", (req, res) => {
   if (req.body.type == "RegisterService") {
     if (!req.body.provides) {
       res.status(200).send();
+      console.log("Service Registered");
       return;
     }
 
@@ -24,6 +25,7 @@ app.post("/register", (req, res) => {
     );
     res.status(200).send();
   }
+  else res.status(200).send("Received")
 });
 
 app.post("/event", (req, res) => {
