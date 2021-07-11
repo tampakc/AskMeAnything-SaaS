@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
-const serviceport = process.env.serviceport || 4505;
+const serviceport = process.env.PORT || 4505;
 
 let routing = {};
 
