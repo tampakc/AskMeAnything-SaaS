@@ -6,6 +6,8 @@ import axios from "axios";
 import "../App/Style.css";
 import "./Home.css";
 
+require("dotenv").config();
+
 const Home = () => {
   const [loadingKey, setLoadingKey] = useState(true);
   const [showKey, setShowKey] = useState(false);
@@ -15,7 +17,7 @@ const Home = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [dataQuestions, setDataQuestions] = useState([]);
 
-  const queryURL = process.env.QueryService;
+  const queryURL = process.env.REACT_APP_QueryService;
   const keywordURL = process.env.KeywordService;
 
   useEffect(() => {

@@ -8,11 +8,13 @@ import UserContributions from "../Functions/UserContributions";
 
 import "./Dashboard.css";
 
+require("dotenv").config();
+
 const Dashboard = ({ token, username }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const queryURL = process.env.QueryService;
+  const queryURL = process.env.REACT_APP_QueryService;
 
   useEffect(() => {
     if (token) {
@@ -31,7 +33,7 @@ const Dashboard = ({ token, username }) => {
       fetchData();
     }
   }, [token, queryURL]);
-  
+
   if (token) {
     if (loading) {
       return <h2 className="normal-font">Still Loading...</h2>;

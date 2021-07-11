@@ -3,11 +3,13 @@ import axios from "axios";
 
 import "../AskQuestion/QuestionStyle.css";
 
+require("dotenv").config();
+
 const PostQuestion = ({ tags, setTags }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const questionURL = process.env.QuestionService;
+  const questionURL = process.env.REACT_APP_QuestionService;
 
   const questionSubmit = async (e) => {
     e.preventDefault();

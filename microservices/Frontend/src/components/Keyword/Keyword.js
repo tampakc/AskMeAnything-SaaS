@@ -5,6 +5,8 @@ import axios from "axios";
 import ListQuestions from "../Functions/ListQuestions.js";
 import Pagination from "../Functions/Pagination.js";
 
+require("dotenv").config();
+
 const Keyword = () => {
   const { page, tag } = useParams();
 
@@ -13,7 +15,7 @@ const Keyword = () => {
   const [currentPage, setCurrentPage] = useState(page);
   const [questionsPerPage] = useState(10);
 
-  const queryURL = process.env.QueryService;
+  const queryURL = process.env.REACT_APP_QueryService;
 
   useEffect(() => {
     const fetchData = async () => {
