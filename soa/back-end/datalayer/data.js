@@ -4,18 +4,22 @@ const axios = require("axios");
 const mysql = require("mysql");
 require("dotenv").config();
 
-const serviceport = process.env.serviceport || 4500;
+const serviceport = process.env.PORT || 4500;
 const dbport = process.env.dbport || 3306;
+const dbuser = process.env.dbuser || "askmebackend";
+const dbpass = process.env.pass || "askme123";
+const dbname = process.env.dbname || "askme";
+const dbhost = process.env.dbhost || "localhost";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "askmebackend",
-  password: "askme123",
-  database: "askme",
+  host: dbhost,
+  user: dbuser,
+  password: dbpass,
+  database: dbname,
   port: dbport,
 });
 

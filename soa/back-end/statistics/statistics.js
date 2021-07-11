@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const dataurl = process.env.dataurl || "http://localhost:";
 const dataport = process.env.dataport || 4500;
-const serviceport = process.env.serviceport || 4503;
+const serviceport = process.env.PORT || 4503;
 const esburl = process.env.esburl || "http://localhost:";
 const esbport = process.env.esbport || 4505;
 

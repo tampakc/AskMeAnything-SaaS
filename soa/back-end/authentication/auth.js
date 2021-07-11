@@ -91,6 +91,6 @@ app.listen(serviceport, () => {
   axios.post(esb + "/register", {
     type: "RegisterService",
     provides: "AuthenticationNeeded",
-    at: serviceurl + serviceport + "/event",
+    at: serviceurl + 80 + "/event",
   });
 });
