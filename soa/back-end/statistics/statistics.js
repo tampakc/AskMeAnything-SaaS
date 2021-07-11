@@ -3,12 +3,14 @@ const cors = require("cors");
 const axios = require("axios");
 require("dotenv").config();
 
+const dataurl = process.env.dataurl || "http://localhost:";
 const dataport = process.env.dataport || 4500;
 const serviceport = process.env.serviceport || 4503;
+const esburl = process.env.esburl || "http://localhost:";
 const esbport = process.env.esbport || 4505;
 
-const esb = "http://localhost:" + esbport;
-const datalayer = "http://localhost:" + dataport;
+const esb = esburl + esbport;
+const datalayer = dataurl + dataport;
 
 const app = express();
 app.use(cors());
@@ -40,6 +42,7 @@ app.get("/statistics/keyword", (req, response) => {
 
 //request to get user contributions per date
 app.get("/statistics/user", (req, response) => {
+  console.log(req);
   const authHeader =
     req.headers["x-observatory-auth"] ||
     req.headers["Authorization"] ||

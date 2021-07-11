@@ -8,10 +8,16 @@ const { createKey } = require("./Authenticate");
 const { default: axios } = require("axios");
 
 const dbport = process.env.dbport || 3306;
-const eventport = process.env.eventport || 4005;
-const serviceport = process.env.serviceport || 4000;
+const dbuser = process.env.dbuser || "userbackend";
+const dbpass = process.env.dbpass || "userdata123";
+const dbhost = process.env.dbhost || "localhost";
+const dbname = process.env.dbname || "askme_user";
+const eventaddr = process.env.eventaddr || "http://localhost:";
 
-const eventservice = "http://localhost:" + eventport + "/events";
+const eventport = process.env.eventport || 4005;
+const serviceport = process.env.PORT || 4000;
+
+const eventservice = eventaddr + eventport + "/events";
 
 const schema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -50,10 +56,10 @@ app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "userbackend",
-  password: "userdata123",
-  database: "askme_user",
+  host: dbhost,
+  user: dbuser,
+  password: dbpass,
+  database: dbname,
   port: dbport,
 });
 

@@ -6,20 +6,26 @@ require("dotenv").config();
 const { authenticateToken } = require("./Authenticate");
 
 const dbport = process.env.dbport || 3306;
-const eventport = process.env.eventport || 4005;
-const serviceport = process.env.serviceport || 4001;
+const dbuser = process.env.dbuser || "questionbackend";
+const dbpass = process.env.dbpass || "question123";
+const dbhost = process.env.dbhost || "localhost";
+const dbname = process.env.dbname || "askme_question";
+const eventaddr = process.env.eventaddr || "http://localhost:";
 
-const eventservice = "http://localhost:" + eventport + "/events";
+const eventport = process.env.eventport || 4005;
+const serviceport = process.env.PORT || 4001;
+
+const eventservice = eventaddr + eventport + "/events";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "questionbackend",
-  password: "question123",
-  database: "askme_question",
+  host: dbhost,
+  user: dbuser,
+  password: dbpass,
+  database: dbname,
   port: dbport,
 });
 

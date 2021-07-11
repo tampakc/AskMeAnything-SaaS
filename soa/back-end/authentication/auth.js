@@ -4,14 +4,17 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+const dataurl = process.env.dataurl || "http://localhost:";
 const dataport = process.env.dataport || 4500;
-const serviceport = process.env.serviceport || 4502;
+const serviceurl = process.env.serviceurl || "http://localhost:";
+const serviceport = process.env.PORT || 4502;
+const esburl = process.env.esburl || "http://localhost:";
 const esbport = process.env.esbport || 4505;
 
 const key = process.env.ACCESS_TOCKEN_SECRET;
 
-const esb = "http://localhost:" + esbport;
-const datalayer = "http://localhost:" + dataport;
+const esb = esburl + esbport;
+const datalayer = dataurl + dataport;
 
 const app = express();
 app.use(cors());
@@ -88,6 +91,6 @@ app.listen(serviceport, () => {
   axios.post(esb + "/register", {
     type: "RegisterService",
     provides: "AuthenticationNeeded",
-    at: "http://localhost:" + serviceport + "/event",
+    at: serviceurl + serviceport + "/event",
   });
 });

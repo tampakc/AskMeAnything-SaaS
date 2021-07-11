@@ -187,6 +187,8 @@ app.get("/statistics/user/:user_id", (req, res) => {
 });
 
 app.get("/query/dashboard/user/:user_id", (req, res) => {
+  //console.log("RECEIVED REQUEST");
+  //console.log(req);
   const user_id = req.params.user_id;
   let reply = { questions: [], answers: [] };
   let counter = 2;
@@ -194,16 +196,19 @@ app.get("/query/dashboard/user/:user_id", (req, res) => {
     "SELECT * FROM question q INNER JOIN user u ON q.user_id = u.user_id WHERE q.user_id = ?",
     [user_id],
     (err, result, fields) => {
-      if (err) {
+      if (err && counter > 0) {
         res.status(500).send("Database error");
-        console.log(err);
+        console.log("ERROR1!\n" + err);
         return;
       }
       if (result.length > 0) {
         reply.questions = result;
       }
       counter = counter - 1;
-      if (counter == 0) res.status(200).send(reply);
+      if (counter == 0) {
+        res.status(200).send(reply);
+        return;
+      }
     }
   );
 
@@ -211,9 +216,10 @@ app.get("/query/dashboard/user/:user_id", (req, res) => {
     "SELECT a.*, q.title FROM answer a INNER JOIN question q ON q.question_id = a.question_id INNER JOIN user u ON u.user_id = a.user_id WHERE a.user_id = ?",
     [user_id],
     (err, result, fields) => {
-      if (err) {
+      if (err && counter > 0) {
+        counter = 0;
         res.status(500).send("Database error");
-        console.log(err);
+        console.log("ERROR2!\n" + err);
         return;
       }
       if (result.length > 0) {

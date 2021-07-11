@@ -2,23 +2,29 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mysql = require("mysql");
-require('dotenv').config();
+require("dotenv").config();
 
 const dbport = process.env.dbport || 3306;
-const eventport = process.env.eventport || 4005;
-const serviceport = process.env.serviceport || 4003;
+const dbuser = process.env.dbuser || "keywordbackend";
+const dbpass = process.env.dbpass || "keyword123";
+const dbhost = process.env.dbhost || "localhost";
+const dbname = process.env.dbname || "askme_keyword";
+const eventaddr = process.env.eventaddr || "http://localhost:";
 
-const eventservice = "http://localhost:" + eventport + "/events";
+const eventport = process.env.eventport || 4005;
+const serviceport = process.env.PORT || 4003;
+
+const eventservice = eventaddr + eventport + "/events";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const con = mysql.createConnection({
-  host: "localhost",
-  user: "keywordbackend",
-  password: "keyword123",
-  database: "askme_keyword",
+  host: dbhost,
+  user: dbuser,
+  password: dbpass,
+  database: dbname,
   port: dbport,
 });
 
