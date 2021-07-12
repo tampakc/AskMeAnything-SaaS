@@ -20,12 +20,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const con = mysql.createConnection({
+const sqloptions = {
   host: "eu-cdbr-west-01.cleardb.com",
   user: "b0d7842fcfe32b",
   password: "8b3c11c8",
   database: "heroku_ca207ccd350e6f8",
   //port: dbport,
+};
+
+let con = mysql.createPool(sqloptions);
+con.on("error", () => {
+  con = mysql.createPool(sqloptions);
 });
 
 app.get("/keyword/byquestions", (req, res) => {
@@ -46,61 +51,49 @@ app.post("/events", (req, res) => {
     let keywords = req.body.data.keywords;
     //console.log("Event KeywordsPosted arrived at Keywords service");
     //console.log(keywords);
-    con.beginTransaction((err) => {
-      if (err) {
-        //console.log("Error1");
-        res.status(500).send("Database error");
-        con.rollback((err) => {});
-        return;
-      }
-      for (i = 0; i < keywords.length; i++) {
-        keywords[i] = [keywords[i]];
-      }
-      con.query(
-        "INSERT IGNORE INTO keyword(word) VALUES ?",
-        [keywords],
-        (err, result, fields) => {
-          if (err) {
-            //console.log(err);
-            res.status(500).send("Database error");
-            con.rollback((err) => {});
-            return;
-          }
-          con.query(
-            "INSERT IGNORE INTO hasword(question_id, keyword_id) SELECT ?, keyword_id FROM keyword WHERE word IN (?)",
-            [req.body.data.id, keywords],
-            (err, result, fields) => {
-              if (err) {
-                //console.log("Error3");
-                res.status(500).send("Database error");
-                con.rollback((err) => {});
-                return;
-              }
-
-              con.commit((err) => {
-                res.status(200).send();
-
-                con.query(
-                  "SELECT * FROM keyword WHERE word in (?)",
-                  [keywords],
-                  (err, result, fields) => {
-                    if (err) throw err;
-                    axios
-                      .post(eventservice, {
-                        type: "KeywordsUpdated",
-                        data: { id: req.body.data.id, keywords: result },
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                      });
-                  }
-                );
-              });
-            }
-          );
+    for (let i = 0; i < keywords.length; i++) {
+      keywords[i] = [keywords[i]];
+    }
+    con.query(
+      "INSERT IGNORE INTO keyword(word) VALUES ?",
+      [keywords],
+      (err, result, fields) => {
+        if (err) {
+          //console.log(err);
+          res.status(500).send("Database error");
+          return;
         }
-      );
-    });
+        con.query(
+          "INSERT IGNORE INTO hasword(question_id, keyword_id) SELECT ?, keyword_id FROM keyword WHERE word IN (?)",
+          [req.body.data.id, keywords],
+          (err, result, fields) => {
+            if (err) {
+              //console.log("Error3");
+              res.status(500).send("Database error");
+              return;
+            }
+
+            res.status(200).send();
+
+            con.query(
+              "SELECT * FROM keyword WHERE word in (?)",
+              [keywords],
+              (err, result, fields) => {
+                if (err) throw err;
+                axios
+                  .post(eventservice, {
+                    type: "KeywordsUpdated",
+                    data: { id: req.body.data.id, keywords: result },
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+            );
+          }
+        );
+      }
+    );
   } else {
     res.status(200).send();
   }

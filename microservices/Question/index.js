@@ -21,12 +21,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const con = mysql.createConnection({
+const sqloptions = {
   host: "eu-cdbr-west-01.cleardb.com",
   user: "b92b56b4e8fe42",
   password: "ea8edd2f",
   database: "heroku_bab82586a1635df",
   //port: dbport,
+};
+
+let con = mysql.createPool(sqloptions);
+con.on("error", () => {
+  con = mysql.createPool(sqloptions);
 });
 
 app.get("/question/:id", async (req, res) => {});

@@ -4,10 +4,18 @@ import "../AskQuestion/TagsStyle.css";
 
 const PostTag = ({ tags, setTags }) => {
   const addTags = (e) => {
-    if (e.key === "Enter" && e.target.value !== "") {
+    if (
+      e.key === "Enter" &&
+      e.target.value !== "" &&
+      tags.indexOf(e.target.value.replace(/\s/g, "") === "") === -1
+    ) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
-    } else if (e.key === " " && e.target.value !== "") {
+    } else if (
+      e.key === " " &&
+      e.target.value !== "" &&
+      tags.indexOf(e.target.value.replace(/\s/g, "") === "") === -1
+    ) {
       e.preventDefault();
       setTags([...tags, e.target.value]);
       e.target.value = "";

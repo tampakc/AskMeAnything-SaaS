@@ -35,7 +35,7 @@ app.post("/events", (req, res) => {
 
   const type = req.body.type;
   const data = req.body.data;
-
+  console.log(routing[type]);
   //console.log("received event of type " + type);
 
   for (target of routing[type]) {

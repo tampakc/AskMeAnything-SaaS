@@ -15,18 +15,23 @@ const eventaddr = process.env.eventaddr || "http://localhost:";
 const eventport = process.env.eventport || 4005;
 const serviceport = process.env.PORT || 4002;
 
-const eventservice = eventaddr + eventport + "/events";
+const eventservice = eventaddr + "/events";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const con = mysql.createConnection({
+const sqloptions = {
   host: "eu-cdbr-west-01.cleardb.com",
   user: "b37f5fd927d9b5",
   password: "aee083ce",
   database: "heroku_4aa7fd4215f010d",
   //port: dbport,
+};
+
+let con = mysql.createPool(sqloptions);
+con.on("error", () => {
+  con = mysql.createPool(sqloptions);
 });
 
 app.post("/answer", authenticateToken, (req, res) => {
@@ -42,6 +47,7 @@ app.post("/answer", authenticateToken, (req, res) => {
     [user_id, question_id, answer, time],
     (err, result, fields) => {
       if (err) {
+        console.log(err);
         res.status(500).send("Database error");
         return;
       }

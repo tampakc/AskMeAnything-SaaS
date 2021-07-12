@@ -15,12 +15,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const con = mysql.createConnection({
+const sqloptions = {
   host: "eu-cdbr-west-01.cleardb.com",
   user: "b648dbdff05a4d",
   password: "577798c1",
   database: "heroku_26677f4ba34621a",
   //port: dbport,
+};
+
+let con = mysql.createPool(sqloptions);
+con.on("error", () => {
+  con = mysql.createPool(sqloptions);
 });
 
 app.get("/user/:username", (req, res) => {
@@ -85,58 +90,45 @@ app.post("/post/question", (req, res) => {
   const time = req.body.timestamp;
   console.log(req.body);
 
-  con.beginTransaction((err) => {
-    if (err) {
-      //console.log("Error1");
-      res.status(500).send("Database error");
-      con.rollback((err) => {});
-      return;
-    }
-    for (i = 0; i < keywords.length; i++) {
-      keywords[i] = [keywords[i]];
-    }
-    con.query(
-      "INSERT INTO question(user_id, title, body, timestamp) VALUES (?, ?, ?, ?)",
-      [user_id, title, question, time],
-      (err, result, fields) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send("Database error");
-          con.rollback((err) => {});
-          return;
-        }
-        const qid = result.insertId;
-        con.query(
-          "INSERT IGNORE INTO keyword(word) VALUES ?",
-          [keywords],
-          (err, result, fields) => {
-            if (err) {
-              //console.log(err);
-              res.status(500).send("Database error");
-              con.rollback((err) => {});
-              return;
-            }
-            con.query(
-              "INSERT IGNORE INTO hasword(question_id, keyword_id) SELECT ?, keyword_id FROM keyword WHERE word IN (?)",
-              [qid, keywords],
-              (err, result, fields) => {
-                if (err) {
-                  //console.log("Error3");
-                  res.status(500).send("Database error");
-                  con.rollback((err) => {});
-                  return;
-                }
-
-                con.commit((err) => {
-                  res.status(200).send("Question posted successfully");
-                });
-              }
-            );
-          }
-        );
+  for (i = 0; i < keywords.length; i++) {
+    keywords[i] = [keywords[i]];
+  }
+  con.query(
+    "INSERT INTO question(user_id, title, body, timestamp) VALUES (?, ?, ?, ?)",
+    [user_id, title, question, time],
+    (err, result, fields) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Database error");
+        return;
       }
-    );
-  });
+      const qid = result.insertId;
+      con.query(
+        "INSERT IGNORE INTO keyword(word) VALUES ?",
+        [keywords],
+        (err, result, fields) => {
+          if (err) {
+            //console.log(err);
+            res.status(500).send("Database error");
+            return;
+          }
+          con.query(
+            "INSERT IGNORE INTO hasword(question_id, keyword_id) SELECT ?, keyword_id FROM keyword WHERE word IN (?)",
+            [qid, keywords],
+            (err, result, fields) => {
+              if (err) {
+                //console.log("Error3");
+                res.status(500).send("Database error");
+                return;
+              }
+
+              res.status(200).send("Question posted successfully");
+            }
+          );
+        }
+      );
+    }
+  );
 });
 
 app.get("/statistics/question/bydate", (req, res) => {
