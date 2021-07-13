@@ -19,6 +19,7 @@ const Signup = ({ token }) => {
       e.preventDefault();
 
       if (password === retype && password) {
+        alert("Creating user, please wait");
         const response = await axios.post(
           userURL + "/signup",
           {

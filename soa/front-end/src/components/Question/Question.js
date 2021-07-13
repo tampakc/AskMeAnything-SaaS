@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -13,21 +13,21 @@ export default function Question() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const queryURL = process.env.REACT_APP_QueryService;
+  const queryURL = useRef(process.env.REACT_APP_QueryService);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(queryURL + `/query/question/${id}`);
+      const res = await axios.get(queryURL.current + `/query/question/${id}`);
       setData(res.data);
       setLoading(false);
     };
 
     fetchData();
-  }, [id, queryURL]);
+  }, [id]);
 
   if (loading) {
-    return <>Still loading...</>;
+    return <h1 className="normal-font">Still loading...</h1>;
   }
 
   return (

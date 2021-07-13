@@ -5,7 +5,10 @@ require("dotenv").config();
 
 const serviceport = process.env.PORT || 4505;
 
-let routing = {};
+let routing = {
+  AuthenticationNeeded:
+    "https://saas-45-soa-authentication.herokuapp.com/event",
+};
 
 const app = express();
 app.use(cors());
@@ -24,8 +27,7 @@ app.post("/register", (req, res) => {
       "ESB: Service " + req.body.provides + " registered at " + req.body.at
     );
     res.status(200).send();
-  }
-  else res.status(200).send("Received")
+  } else res.status(200).send("Received");
 });
 
 app.post("/event", (req, res) => {

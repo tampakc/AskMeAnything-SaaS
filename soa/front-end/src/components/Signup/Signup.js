@@ -16,6 +16,7 @@ const Signup = ({ token }) => {
 
   if (!token) {
     const handleSubmit = async (e) => {
+      alert("Creating user, please wait");
       e.preventDefault();
 
       if (password === retype && password) {

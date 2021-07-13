@@ -26,6 +26,7 @@
   margin-left: 51.25%;
   transform: translate(-50%, 0%);
 }
+
 .post-list:hover {
   background: #477e64;
   cursor: pointer;
@@ -63,6 +64,21 @@
   text-align: center;
   margin-left: 51.25%;
   transform: translate(-50%, 0%);
+}
+
+.post-list-ul li {
+  list-style: none;
+  background: #292930;
+  border-radius: 2px;
+  padding: 20px 10px 20px 5px;
+  width: 51.25%;
+  margin-left: 50%;
+  transform: translate(-50%, 0%);
+  cursor: default;
+}
+
+.post-list-ul li:hover {
+  background: #477e64;
 }
 
 .centered-font {

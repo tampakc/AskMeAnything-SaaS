@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Redirect } from "react-router";
 import axios from "axios";
 
@@ -15,8 +15,8 @@ const Dashboard = ({ token, username }) => {
   const [data, setData] = useState([]);
   const [contributions, setContributions] = useState([]);
 
-  const queryURL = process.env.REACT_APP_QueryService;
-  const statisticsURL = process.env.REACT_APP_StatisticsService;
+  const queryURL = useRef(process.env.REACT_APP_QueryService);
+  const statisticsURL = useRef(process.env.REACT_APP_StatisticsService);
 
   useEffect(() => {
     if (token) {
@@ -26,12 +26,12 @@ const Dashboard = ({ token, username }) => {
         };
         setLoading(true);
         const res = await axios.get(
-          queryURL + "/query/dashboard/user",
+          queryURL.current + "/query/dashboard/user",
           options
         );
         setData(res.data);
         const cont = await axios.get(
-          statisticsURL + "/statistics/user",
+          statisticsURL.current + "/statistics/user",
           options
         );
         setContributions(cont.data);
@@ -39,7 +39,7 @@ const Dashboard = ({ token, username }) => {
       };
       fetchData();
     }
-  }, [token, queryURL, statisticsURL]);
+  }, [token]);
 
   if (token) {
     if (loading) {

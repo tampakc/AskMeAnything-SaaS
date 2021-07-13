@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -15,18 +15,20 @@ const AllQuestions = () => {
   const [currentPage, setCurrentPage] = useState(page);
   const [questionsPerPage] = useState(10);
 
-  const queryURL = process.env.REACT_APP_QueryService;
+  const queryURL = useRef(process.env.REACT_APP_QueryService);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await axios.get(queryURL + "/query/question/all/titles");
+      const res = await axios.get(
+        queryURL.current + "/query/question/all/titles"
+      );
       setQuestions(res.data);
       setLoading(false);
     };
 
     fetchData();
-  }, [queryURL]);
+  }, []);
 
   const indexOfLastQ = currentPage * questionsPerPage;
   const indexOfFirstQ = indexOfLastQ - questionsPerPage;

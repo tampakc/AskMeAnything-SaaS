@@ -4,7 +4,7 @@ import "../AllQuestions/ListStyle.css";
 
 const ListQuestions = ({ loading, questions }) => {
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <h2 className="normal-font">Loading...</h2>;
   }
   return (
     <div className="list-questions-wrapper" style={{ marginTop: "180px" }}>

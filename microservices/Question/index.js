@@ -34,7 +34,15 @@ con.on("error", () => {
   con = mysql.createPool(sqloptions);
 });
 
-app.get("/question/:id", async (req, res) => {});
+app.options("/*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
+  res.status(200).send();
+});
 
 app.post("/question", authenticateToken, (req, res) => {
   //we have confirmed that the token is valid so we can continue

@@ -3,23 +3,23 @@ import React, { useState } from "react";
 const UserContributions = ({ contributions }) => {
   const [showContribs, setShowContribs] = useState(false);
 
-  let renderedContribs = contributions.map((value) => {
-    return (
-      <div key={value.date} className="post-list" style={{ cursor: "default" }}>
-        <div className="question-select" style={{ fontWeight: "500" }}>
-          {value.date}
-        </div>
-        <div className="list-font">{"Questions: " + value.questions}</div>
-        <div className="list-font">{"Answers: " + value.answers}</div>
-      </div>
-    );
-  });
+  let renderedContribs = contributions.map((value) => (
+    <li key={value.date}>
+      <p className="question-select" style={{ fontWeight: "500" }}>
+        {value.date}
+      </p>
+      <p className="list-font">{"Questions: " + value.questions}</p>
+      <p className="list-font">{"Answers: " + value.answers}</p>
+    </li>
+  ));
 
   if (renderedContribs.length === 0) {
     renderedContribs = (
       <span className="centered-font">You have no Contributions</span>
     );
   }
+
+  let result = <ul className="post-list-ul">{renderedContribs}</ul>;
 
   return (
     <div>
@@ -32,7 +32,7 @@ const UserContributions = ({ contributions }) => {
       >
         Your Contributions:{" "}
       </button>
-      {showContribs && renderedContribs}
+      {showContribs && result}
     </div>
   );
 };

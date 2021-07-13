@@ -11,6 +11,7 @@ const AnswerField = ({ question_id }) => {
   const answerURL = process.env.REACT_APP_AnswerService;
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const timestamp = new Date();
 
     const options = {
@@ -26,6 +27,7 @@ const AnswerField = ({ question_id }) => {
       },
       options
     );
+    window.location.reload();
   };
 
   return (

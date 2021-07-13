@@ -34,6 +34,16 @@ con.on("error", () => {
   con = mysql.createPool(sqloptions);
 });
 
+app.options("/*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
+  res.status(200).send();
+});
+
 app.get("/query/question/all", (req, res) => {
   const user_id = req.params.userid;
   const questions = [];
@@ -175,6 +185,11 @@ app.get("/query/question/:questionid", (req, res) => {
     [question_id],
     (err, result, fields) => {
       if (err) throw err;
+      console.log("-----------------------------------------");
+      console.log(result);
+      console.log("-----------------------------------------");
+      console.log(fields);
+      console.log("-----------------------------------------");
       if (result.length == 0) {
         question.answers = [];
       } else {

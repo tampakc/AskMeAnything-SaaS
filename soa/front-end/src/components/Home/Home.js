@@ -1,6 +1,6 @@
 // pages/Home.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import "../App/Style.css";
@@ -17,23 +17,25 @@ const Home = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [dataQuestions, setDataQuestions] = useState([]);
 
-  const statisticsURL = process.env.REACT_APP_StatisticsService;
+  const statisticsURL = useRef(process.env.REACT_APP_StatisticsService);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoadingKey(true);
-      let res = await axios.get(statisticsURL + "/statistics/keyword");
+      let res = await axios.get(statisticsURL.current + "/statistics/keyword");
       setDataKey(res.data);
       setLoadingKey(false);
 
       setLoadingQuestions(true);
-      res = await axios.get(statisticsURL + "/statistics/question/bydate");
+      res = await axios.get(
+        statisticsURL.current + "/statistics/question/bydate"
+      );
       setDataQuestions(res.data);
       setLoadingQuestions(false);
     };
 
     fetchData();
-  }, [statisticsURL]);
+  }, []);
 
   let renderedDataKey;
 

@@ -3,17 +3,19 @@ import React, { useState } from "react";
 const UserContributions = ({ contributions }) => {
   const [showContribs, setShowContribs] = useState(false);
 
-  let renderedContribs = contributions.map((value) => {
-    return (
-      <div key={value.date} className="post-list" style={{ cursor: "default" }}>
-        <div className="question-select" style={{ fontWeight: "500" }}>
-          {value.date}
-        </div>
-        <div className="list-font">{"Questions: " + value.questions}</div>
-        <div className="list-font">{"Answers: " + value.answers}</div>
-      </div>
-    );
-  });
+  let renderedContribs = (
+    <ul className="post-list-ul">
+      {contributions.map((value) => (
+        <li key={value.date}>
+          <p className="question-select" style={{ fontWeight: "500" }}>
+            {value.date}
+          </p>
+          <p className="list-font">{"Questions: " + value.questions}</p>
+          <p className="list-font">{"Answers: " + value.answers}</p>
+        </li>
+      ))}
+    </ul>
+  );
 
   if (renderedContribs.length === 0) {
     renderedContribs = (

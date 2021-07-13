@@ -11,6 +11,7 @@ const AnswerField = ({ question_id }) => {
   const postURL = process.env.REACT_APP_PostService;
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const timestamp = new Date();
 
     const options = {
@@ -26,6 +27,7 @@ const AnswerField = ({ question_id }) => {
       },
       options
     );
+    window.location.reload();
   };
 
   return (

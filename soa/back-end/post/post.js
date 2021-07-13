@@ -17,6 +17,16 @@ app.use(cors());
 app.options("*", cors());
 app.use(express.json());
 
+app.options("/*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
+  res.status(200).send();
+});
+
 //request for posting answer to a question
 app.post("/post/answer", (req, response) => {
   const question_id = req.body.question_id;
